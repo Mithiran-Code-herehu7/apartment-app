@@ -1,8 +1,9 @@
 import axios from 'axios';
 
-// In a real app, this should be an environment variable. 
-// Assuming backend runs on 3000 locally.
-export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api/v1';
+// The base URL is now just the relative path. 
+// Next.js Rewrites (in next.config.ts) will proxy these requests 
+// securely to the backend to completely bypass CORS and third-party Cookie restrictions!
+export const API_BASE_URL = '/api/v1';
 
 export const api = axios.create({
   baseURL: API_BASE_URL,
