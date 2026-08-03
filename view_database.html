@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ApartmentSkills Database Schema</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 1200px;
+            overflow-x: auto;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ApartmentSkills Database Schema</h1>
+        <div class="mermaid">
+            erDiagram
+                apartments {
+                    uuid id PK
+                    varchar name
+                    varchar city
+                    boolean is_active
+                    timestamp created_at
+                }
+
+                users {
+                    uuid id PK
+                    uuid apartment_id FK
+                    varchar email
+                    varchar phone
+                    varchar status
+                    timestamp created_at
+                }
+
+                listings {
+                    uuid id PK
+                    uuid provider_id FK
+                    uuid category_id FK
+                    varchar title
+                    varchar status
+                    int max_capacity
+                }
+
+                pricing_plans {
+                    uuid id PK
+                    uuid listing_id FK
+                    varchar pricing_type
+                    decimal price_amount
+                }
+
+                availability_slots {
+                    uuid id PK
+                    uuid listing_id FK
+                    varchar slot_type
+                    timestamp start_datetime
+                    int max_capacity
+                }
+
+                bookings {
+                    uuid id PK
+                    uuid learner_id FK
+                    uuid listing_id FK
+                    uuid slot_id FK
+                    uuid pricing_plan_id FK
+                    varchar status
+                    timestamp session_start
+                }
+
+                payments {
+                    uuid id PK
+                    uuid booking_id FK
+                    uuid payer_id FK
+                    decimal amount
+                    varchar status
+                }
+
+                %% Relationships
+                apartments ||--o{ users : "has"
+                users ||--o{ listings : "creates"
+                users ||--o{ bookings : "makes"
+                
+                listings ||--o{ pricing_plans : "offers"
+                listings ||--o{ availability_slots : "schedules"
+                
+                pricing_plans ||--o{ bookings : "purchased via"
+                availability_slots ||--o{ bookings : "reserved via"
+                
+                bookings ||--o| payments : "paid via"
+        </div>
+    </div>
+
+    <!-- Import Mermaid.js from CDN -->
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose'
+        });
+    </script>
+</body>
+</html>

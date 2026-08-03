@@ -1,0 +1,1726 @@
+import type * as runtime from "@prisma/client/runtime/client";
+import type * as $Enums from "../enums.js";
+import type * as Prisma from "../internal/prismaNamespace.js";
+export type disputesModel = runtime.Types.Result.DefaultSelection<Prisma.$disputesPayload>;
+export type AggregateDisputes = {
+    _count: DisputesCountAggregateOutputType | null;
+    _min: DisputesMinAggregateOutputType | null;
+    _max: DisputesMaxAggregateOutputType | null;
+};
+export type DisputesMinAggregateOutputType = {
+    id: string | null;
+    booking_id: string | null;
+    filed_by: string | null;
+    against_user_id: string | null;
+    apartment_id: string | null;
+    subject: string | null;
+    description: string | null;
+    status: $Enums.dispute_status | null;
+    assigned_to: string | null;
+    resolution: $Enums.dispute_resolution | null;
+    resolution_notes: string | null;
+    resolved_at: Date | null;
+    created_at: Date | null;
+    updated_at: Date | null;
+};
+export type DisputesMaxAggregateOutputType = {
+    id: string | null;
+    booking_id: string | null;
+    filed_by: string | null;
+    against_user_id: string | null;
+    apartment_id: string | null;
+    subject: string | null;
+    description: string | null;
+    status: $Enums.dispute_status | null;
+    assigned_to: string | null;
+    resolution: $Enums.dispute_resolution | null;
+    resolution_notes: string | null;
+    resolved_at: Date | null;
+    created_at: Date | null;
+    updated_at: Date | null;
+};
+export type DisputesCountAggregateOutputType = {
+    id: number;
+    booking_id: number;
+    filed_by: number;
+    against_user_id: number;
+    apartment_id: number;
+    subject: number;
+    description: number;
+    evidence_urls: number;
+    status: number;
+    assigned_to: number;
+    resolution: number;
+    resolution_notes: number;
+    resolved_at: number;
+    created_at: number;
+    updated_at: number;
+    _all: number;
+};
+export type DisputesMinAggregateInputType = {
+    id?: true;
+    booking_id?: true;
+    filed_by?: true;
+    against_user_id?: true;
+    apartment_id?: true;
+    subject?: true;
+    description?: true;
+    status?: true;
+    assigned_to?: true;
+    resolution?: true;
+    resolution_notes?: true;
+    resolved_at?: true;
+    created_at?: true;
+    updated_at?: true;
+};
+export type DisputesMaxAggregateInputType = {
+    id?: true;
+    booking_id?: true;
+    filed_by?: true;
+    against_user_id?: true;
+    apartment_id?: true;
+    subject?: true;
+    description?: true;
+    status?: true;
+    assigned_to?: true;
+    resolution?: true;
+    resolution_notes?: true;
+    resolved_at?: true;
+    created_at?: true;
+    updated_at?: true;
+};
+export type DisputesCountAggregateInputType = {
+    id?: true;
+    booking_id?: true;
+    filed_by?: true;
+    against_user_id?: true;
+    apartment_id?: true;
+    subject?: true;
+    description?: true;
+    evidence_urls?: true;
+    status?: true;
+    assigned_to?: true;
+    resolution?: true;
+    resolution_notes?: true;
+    resolved_at?: true;
+    created_at?: true;
+    updated_at?: true;
+    _all?: true;
+};
+export type DisputesAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.disputesWhereInput;
+    orderBy?: Prisma.disputesOrderByWithRelationInput | Prisma.disputesOrderByWithRelationInput[];
+    cursor?: Prisma.disputesWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    _count?: true | DisputesCountAggregateInputType;
+    _min?: DisputesMinAggregateInputType;
+    _max?: DisputesMaxAggregateInputType;
+};
+export type GetDisputesAggregateType<T extends DisputesAggregateArgs> = {
+    [P in keyof T & keyof AggregateDisputes]: P extends '_count' | 'count' ? T[P] extends true ? number : Prisma.GetScalarType<T[P], AggregateDisputes[P]> : Prisma.GetScalarType<T[P], AggregateDisputes[P]>;
+};
+export type disputesGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.disputesWhereInput;
+    orderBy?: Prisma.disputesOrderByWithAggregationInput | Prisma.disputesOrderByWithAggregationInput[];
+    by: Prisma.DisputesScalarFieldEnum[] | Prisma.DisputesScalarFieldEnum;
+    having?: Prisma.disputesScalarWhereWithAggregatesInput;
+    take?: number;
+    skip?: number;
+    _count?: DisputesCountAggregateInputType | true;
+    _min?: DisputesMinAggregateInputType;
+    _max?: DisputesMaxAggregateInputType;
+};
+export type DisputesGroupByOutputType = {
+    id: string;
+    booking_id: string;
+    filed_by: string;
+    against_user_id: string;
+    apartment_id: string;
+    subject: string;
+    description: string;
+    evidence_urls: string[];
+    status: $Enums.dispute_status;
+    assigned_to: string | null;
+    resolution: $Enums.dispute_resolution | null;
+    resolution_notes: string | null;
+    resolved_at: Date | null;
+    created_at: Date;
+    updated_at: Date;
+    _count: DisputesCountAggregateOutputType | null;
+    _min: DisputesMinAggregateOutputType | null;
+    _max: DisputesMaxAggregateOutputType | null;
+};
+export type GetDisputesGroupByPayload<T extends disputesGroupByArgs> = Prisma.PrismaPromise<Array<Prisma.PickEnumerable<DisputesGroupByOutputType, T['by']> & {
+    [P in ((keyof T) & (keyof DisputesGroupByOutputType))]: P extends '_count' ? T[P] extends boolean ? number : Prisma.GetScalarType<T[P], DisputesGroupByOutputType[P]> : Prisma.GetScalarType<T[P], DisputesGroupByOutputType[P]>;
+}>>;
+export type disputesWhereInput = {
+    AND?: Prisma.disputesWhereInput | Prisma.disputesWhereInput[];
+    OR?: Prisma.disputesWhereInput[];
+    NOT?: Prisma.disputesWhereInput | Prisma.disputesWhereInput[];
+    id?: Prisma.UuidFilter<"disputes"> | string;
+    booking_id?: Prisma.UuidFilter<"disputes"> | string;
+    filed_by?: Prisma.UuidFilter<"disputes"> | string;
+    against_user_id?: Prisma.UuidFilter<"disputes"> | string;
+    apartment_id?: Prisma.UuidFilter<"disputes"> | string;
+    subject?: Prisma.StringFilter<"disputes"> | string;
+    description?: Prisma.StringFilter<"disputes"> | string;
+    evidence_urls?: Prisma.StringNullableListFilter<"disputes">;
+    status?: Prisma.Enumdispute_statusFilter<"disputes"> | $Enums.dispute_status;
+    assigned_to?: Prisma.UuidNullableFilter<"disputes"> | string | null;
+    resolution?: Prisma.Enumdispute_resolutionNullableFilter<"disputes"> | $Enums.dispute_resolution | null;
+    resolution_notes?: Prisma.StringNullableFilter<"disputes"> | string | null;
+    resolved_at?: Prisma.DateTimeNullableFilter<"disputes"> | Date | string | null;
+    created_at?: Prisma.DateTimeFilter<"disputes"> | Date | string;
+    updated_at?: Prisma.DateTimeFilter<"disputes"> | Date | string;
+    dispute_messages?: Prisma.Dispute_messagesListRelationFilter;
+    users_disputes_against_user_idTousers?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>;
+    apartments?: Prisma.XOR<Prisma.ApartmentsScalarRelationFilter, Prisma.apartmentsWhereInput>;
+    users_disputes_assigned_toTousers?: Prisma.XOR<Prisma.UsersNullableScalarRelationFilter, Prisma.usersWhereInput> | null;
+    bookings?: Prisma.XOR<Prisma.BookingsScalarRelationFilter, Prisma.bookingsWhereInput>;
+    users_disputes_filed_byTousers?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>;
+};
+export type disputesOrderByWithRelationInput = {
+    id?: Prisma.SortOrder;
+    booking_id?: Prisma.SortOrder;
+    filed_by?: Prisma.SortOrder;
+    against_user_id?: Prisma.SortOrder;
+    apartment_id?: Prisma.SortOrder;
+    subject?: Prisma.SortOrder;
+    description?: Prisma.SortOrder;
+    evidence_urls?: Prisma.SortOrder;
+    status?: Prisma.SortOrder;
+    assigned_to?: Prisma.SortOrderInput | Prisma.SortOrder;
+    resolution?: Prisma.SortOrderInput | Prisma.SortOrder;
+    resolution_notes?: Prisma.SortOrderInput | Prisma.SortOrder;
+    resolved_at?: Prisma.SortOrderInput | Prisma.SortOrder;
+    created_at?: Prisma.SortOrder;
+    updated_at?: Prisma.SortOrder;
+    dispute_messages?: Prisma.dispute_messagesOrderByRelationAggregateInput;
+    users_disputes_against_user_idTousers?: Prisma.usersOrderByWithRelationInput;
+    apartments?: Prisma.apartmentsOrderByWithRelationInput;
+    users_disputes_assigned_toTousers?: Prisma.usersOrderByWithRelationInput;
+    bookings?: Prisma.bookingsOrderByWithRelationInput;
+    users_disputes_filed_byTousers?: Prisma.usersOrderByWithRelationInput;
+};
+export type disputesWhereUniqueInput = Prisma.AtLeast<{
+    id?: string;
+    AND?: Prisma.disputesWhereInput | Prisma.disputesWhereInput[];
+    OR?: Prisma.disputesWhereInput[];
+    NOT?: Prisma.disputesWhereInput | Prisma.disputesWhereInput[];
+    booking_id?: Prisma.UuidFilter<"disputes"> | string;
+    filed_by?: Prisma.UuidFilter<"disputes"> | string;
+    against_user_id?: Prisma.UuidFilter<"disputes"> | string;
+    apartment_id?: Prisma.UuidFilter<"disputes"> | string;
+    subject?: Prisma.StringFilter<"disputes"> | string;
+    description?: Prisma.StringFilter<"disputes"> | string;
+    evidence_urls?: Prisma.StringNullableListFilter<"disputes">;
+    status?: Prisma.Enumdispute_statusFilter<"disputes"> | $Enums.dispute_status;
+    assigned_to?: Prisma.UuidNullableFilter<"disputes"> | string | null;
+    resolution?: Prisma.Enumdispute_resolutionNullableFilter<"disputes"> | $Enums.dispute_resolution | null;
+    resolution_notes?: Prisma.StringNullableFilter<"disputes"> | string | null;
+    resolved_at?: Prisma.DateTimeNullableFilter<"disputes"> | Date | string | null;
+    created_at?: Prisma.DateTimeFilter<"disputes"> | Date | string;
+    updated_at?: Prisma.DateTimeFilter<"disputes"> | Date | string;
+    dispute_messages?: Prisma.Dispute_messagesListRelationFilter;
+    users_disputes_against_user_idTousers?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>;
+    apartments?: Prisma.XOR<Prisma.ApartmentsScalarRelationFilter, Prisma.apartmentsWhereInput>;
+    users_disputes_assigned_toTousers?: Prisma.XOR<Prisma.UsersNullableScalarRelationFilter, Prisma.usersWhereInput> | null;
+    bookings?: Prisma.XOR<Prisma.BookingsScalarRelationFilter, Prisma.bookingsWhereInput>;
+    users_disputes_filed_byTousers?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>;
+}, "id">;
+export type disputesOrderByWithAggregationInput = {
+    id?: Prisma.SortOrder;
+    booking_id?: Prisma.SortOrder;
+    filed_by?: Prisma.SortOrder;
+    against_user_id?: Prisma.SortOrder;
+    apartment_id?: Prisma.SortOrder;
+    subject?: Prisma.SortOrder;
+    description?: Prisma.SortOrder;
+    evidence_urls?: Prisma.SortOrder;
+    status?: Prisma.SortOrder;
+    assigned_to?: Prisma.SortOrderInput | Prisma.SortOrder;
+    resolution?: Prisma.SortOrderInput | Prisma.SortOrder;
+    resolution_notes?: Prisma.SortOrderInput | Prisma.SortOrder;
+    resolved_at?: Prisma.SortOrderInput | Prisma.SortOrder;
+    created_at?: Prisma.SortOrder;
+    updated_at?: Prisma.SortOrder;
+    _count?: Prisma.disputesCountOrderByAggregateInput;
+    _max?: Prisma.disputesMaxOrderByAggregateInput;
+    _min?: Prisma.disputesMinOrderByAggregateInput;
+};
+export type disputesScalarWhereWithAggregatesInput = {
+    AND?: Prisma.disputesScalarWhereWithAggregatesInput | Prisma.disputesScalarWhereWithAggregatesInput[];
+    OR?: Prisma.disputesScalarWhereWithAggregatesInput[];
+    NOT?: Prisma.disputesScalarWhereWithAggregatesInput | Prisma.disputesScalarWhereWithAggregatesInput[];
+    id?: Prisma.UuidWithAggregatesFilter<"disputes"> | string;
+    booking_id?: Prisma.UuidWithAggregatesFilter<"disputes"> | string;
+    filed_by?: Prisma.UuidWithAggregatesFilter<"disputes"> | string;
+    against_user_id?: Prisma.UuidWithAggregatesFilter<"disputes"> | string;
+    apartment_id?: Prisma.UuidWithAggregatesFilter<"disputes"> | string;
+    subject?: Prisma.StringWithAggregatesFilter<"disputes"> | string;
+    description?: Prisma.StringWithAggregatesFilter<"disputes"> | string;
+    evidence_urls?: Prisma.StringNullableListFilter<"disputes">;
+    status?: Prisma.Enumdispute_statusWithAggregatesFilter<"disputes"> | $Enums.dispute_status;
+    assigned_to?: Prisma.UuidNullableWithAggregatesFilter<"disputes"> | string | null;
+    resolution?: Prisma.Enumdispute_resolutionNullableWithAggregatesFilter<"disputes"> | $Enums.dispute_resolution | null;
+    resolution_notes?: Prisma.StringNullableWithAggregatesFilter<"disputes"> | string | null;
+    resolved_at?: Prisma.DateTimeNullableWithAggregatesFilter<"disputes"> | Date | string | null;
+    created_at?: Prisma.DateTimeWithAggregatesFilter<"disputes"> | Date | string;
+    updated_at?: Prisma.DateTimeWithAggregatesFilter<"disputes"> | Date | string;
+};
+export type disputesCreateInput = {
+    id?: string;
+    subject: string;
+    description: string;
+    evidence_urls?: Prisma.disputesCreateevidence_urlsInput | string[];
+    status?: $Enums.dispute_status;
+    resolution?: $Enums.dispute_resolution | null;
+    resolution_notes?: string | null;
+    resolved_at?: Date | string | null;
+    created_at?: Date | string;
+    updated_at?: Date | string;
+    dispute_messages?: Prisma.dispute_messagesCreateNestedManyWithoutDisputesInput;
+    users_disputes_against_user_idTousers: Prisma.usersCreateNestedOneWithoutDisputes_disputes_against_user_idTousersInput;
+    apartments: Prisma.apartmentsCreateNestedOneWithoutDisputesInput;
+    users_disputes_assigned_toTousers?: Prisma.usersCreateNestedOneWithoutDisputes_disputes_assigned_toTousersInput;
+    bookings: Prisma.bookingsCreateNestedOneWithoutDisputesInput;
+    users_disputes_filed_byTousers: Prisma.usersCreateNestedOneWithoutDisputes_disputes_filed_byTousersInput;
+};
+export type disputesUncheckedCreateInput = {
+    id?: string;
+    booking_id: string;
+    filed_by: string;
+    against_user_id: string;
+    apartment_id: string;
+    subject: string;
+    description: string;
+    evidence_urls?: Prisma.disputesCreateevidence_urlsInput | string[];
+    status?: $Enums.dispute_status;
+    assigned_to?: string | null;
+    resolution?: $Enums.dispute_resolution | null;
+    resolution_notes?: string | null;
+    resolved_at?: Date | string | null;
+    created_at?: Date | string;
+    updated_at?: Date | string;
+    dispute_messages?: Prisma.dispute_messagesUncheckedCreateNestedManyWithoutDisputesInput;
+};
+export type disputesUpdateInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    subject?: Prisma.StringFieldUpdateOperationsInput | string;
+    description?: Prisma.StringFieldUpdateOperationsInput | string;
+    evidence_urls?: Prisma.disputesUpdateevidence_urlsInput | string[];
+    status?: Prisma.Enumdispute_statusFieldUpdateOperationsInput | $Enums.dispute_status;
+    resolution?: Prisma.NullableEnumdispute_resolutionFieldUpdateOperationsInput | $Enums.dispute_resolution | null;
+    resolution_notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    dispute_messages?: Prisma.dispute_messagesUpdateManyWithoutDisputesNestedInput;
+    users_disputes_against_user_idTousers?: Prisma.usersUpdateOneRequiredWithoutDisputes_disputes_against_user_idTousersNestedInput;
+    apartments?: Prisma.apartmentsUpdateOneRequiredWithoutDisputesNestedInput;
+    users_disputes_assigned_toTousers?: Prisma.usersUpdateOneWithoutDisputes_disputes_assigned_toTousersNestedInput;
+    bookings?: Prisma.bookingsUpdateOneRequiredWithoutDisputesNestedInput;
+    users_disputes_filed_byTousers?: Prisma.usersUpdateOneRequiredWithoutDisputes_disputes_filed_byTousersNestedInput;
+};
+export type disputesUncheckedUpdateInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    booking_id?: Prisma.StringFieldUpdateOperationsInput | string;
+    filed_by?: Prisma.StringFieldUpdateOperationsInput | string;
+    against_user_id?: Prisma.StringFieldUpdateOperationsInput | string;
+    apartment_id?: Prisma.StringFieldUpdateOperationsInput | string;
+    subject?: Prisma.StringFieldUpdateOperationsInput | string;
+    description?: Prisma.StringFieldUpdateOperationsInput | string;
+    evidence_urls?: Prisma.disputesUpdateevidence_urlsInput | string[];
+    status?: Prisma.Enumdispute_statusFieldUpdateOperationsInput | $Enums.dispute_status;
+    assigned_to?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resolution?: Prisma.NullableEnumdispute_resolutionFieldUpdateOperationsInput | $Enums.dispute_resolution | null;
+    resolution_notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    dispute_messages?: Prisma.dispute_messagesUncheckedUpdateManyWithoutDisputesNestedInput;
+};
+export type disputesCreateManyInput = {
+    id?: string;
+    booking_id: string;
+    filed_by: string;
+    against_user_id: string;
+    apartment_id: string;
+    subject: string;
+    description: string;
+    evidence_urls?: Prisma.disputesCreateevidence_urlsInput | string[];
+    status?: $Enums.dispute_status;
+    assigned_to?: string | null;
+    resolution?: $Enums.dispute_resolution | null;
+    resolution_notes?: string | null;
+    resolved_at?: Date | string | null;
+    created_at?: Date | string;
+    updated_at?: Date | string;
+};
+export type disputesUpdateManyMutationInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    subject?: Prisma.StringFieldUpdateOperationsInput | string;
+    description?: Prisma.StringFieldUpdateOperationsInput | string;
+    evidence_urls?: Prisma.disputesUpdateevidence_urlsInput | string[];
+    status?: Prisma.Enumdispute_statusFieldUpdateOperationsInput | $Enums.dispute_status;
+    resolution?: Prisma.NullableEnumdispute_resolutionFieldUpdateOperationsInput | $Enums.dispute_resolution | null;
+    resolution_notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+};
+export type disputesUncheckedUpdateManyInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    booking_id?: Prisma.StringFieldUpdateOperationsInput | string;
+    filed_by?: Prisma.StringFieldUpdateOperationsInput | string;
+    against_user_id?: Prisma.StringFieldUpdateOperationsInput | string;
+    apartment_id?: Prisma.StringFieldUpdateOperationsInput | string;
+    subject?: Prisma.StringFieldUpdateOperationsInput | string;
+    description?: Prisma.StringFieldUpdateOperationsInput | string;
+    evidence_urls?: Prisma.disputesUpdateevidence_urlsInput | string[];
+    status?: Prisma.Enumdispute_statusFieldUpdateOperationsInput | $Enums.dispute_status;
+    assigned_to?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resolution?: Prisma.NullableEnumdispute_resolutionFieldUpdateOperationsInput | $Enums.dispute_resolution | null;
+    resolution_notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+};
+export type DisputesListRelationFilter = {
+    every?: Prisma.disputesWhereInput;
+    some?: Prisma.disputesWhereInput;
+    none?: Prisma.disputesWhereInput;
+};
+export type disputesOrderByRelationAggregateInput = {
+    _count?: Prisma.SortOrder;
+};
+export type DisputesScalarRelationFilter = {
+    is?: Prisma.disputesWhereInput;
+    isNot?: Prisma.disputesWhereInput;
+};
+export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null;
+    has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null;
+    hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>;
+    hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>;
+    isEmpty?: boolean;
+};
+export type disputesCountOrderByAggregateInput = {
+    id?: Prisma.SortOrder;
+    booking_id?: Prisma.SortOrder;
+    filed_by?: Prisma.SortOrder;
+    against_user_id?: Prisma.SortOrder;
+    apartment_id?: Prisma.SortOrder;
+    subject?: Prisma.SortOrder;
+    description?: Prisma.SortOrder;
+    evidence_urls?: Prisma.SortOrder;
+    status?: Prisma.SortOrder;
+    assigned_to?: Prisma.SortOrder;
+    resolution?: Prisma.SortOrder;
+    resolution_notes?: Prisma.SortOrder;
+    resolved_at?: Prisma.SortOrder;
+    created_at?: Prisma.SortOrder;
+    updated_at?: Prisma.SortOrder;
+};
+export type disputesMaxOrderByAggregateInput = {
+    id?: Prisma.SortOrder;
+    booking_id?: Prisma.SortOrder;
+    filed_by?: Prisma.SortOrder;
+    against_user_id?: Prisma.SortOrder;
+    apartment_id?: Prisma.SortOrder;
+    subject?: Prisma.SortOrder;
+    description?: Prisma.SortOrder;
+    status?: Prisma.SortOrder;
+    assigned_to?: Prisma.SortOrder;
+    resolution?: Prisma.SortOrder;
+    resolution_notes?: Prisma.SortOrder;
+    resolved_at?: Prisma.SortOrder;
+    created_at?: Prisma.SortOrder;
+    updated_at?: Prisma.SortOrder;
+};
+export type disputesMinOrderByAggregateInput = {
+    id?: Prisma.SortOrder;
+    booking_id?: Prisma.SortOrder;
+    filed_by?: Prisma.SortOrder;
+    against_user_id?: Prisma.SortOrder;
+    apartment_id?: Prisma.SortOrder;
+    subject?: Prisma.SortOrder;
+    description?: Prisma.SortOrder;
+    status?: Prisma.SortOrder;
+    assigned_to?: Prisma.SortOrder;
+    resolution?: Prisma.SortOrder;
+    resolution_notes?: Prisma.SortOrder;
+    resolved_at?: Prisma.SortOrder;
+    created_at?: Prisma.SortOrder;
+    updated_at?: Prisma.SortOrder;
+};
+export type disputesCreateNestedManyWithoutApartmentsInput = {
+    create?: Prisma.XOR<Prisma.disputesCreateWithoutApartmentsInput, Prisma.disputesUncheckedCreateWithoutApartmentsInput> | Prisma.disputesCreateWithoutApartmentsInput[] | Prisma.disputesUncheckedCreateWithoutApartmentsInput[];
+    connectOrCreate?: Prisma.disputesCreateOrConnectWithoutApartmentsInput | Prisma.disputesCreateOrConnectWithoutApartmentsInput[];
+    createMany?: Prisma.disputesCreateManyApartmentsInputEnvelope;
+    connect?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+};
+export type disputesUncheckedCreateNestedManyWithoutApartmentsInput = {
+    create?: Prisma.XOR<Prisma.disputesCreateWithoutApartmentsInput, Prisma.disputesUncheckedCreateWithoutApartmentsInput> | Prisma.disputesCreateWithoutApartmentsInput[] | Prisma.disputesUncheckedCreateWithoutApartmentsInput[];
+    connectOrCreate?: Prisma.disputesCreateOrConnectWithoutApartmentsInput | Prisma.disputesCreateOrConnectWithoutApartmentsInput[];
+    createMany?: Prisma.disputesCreateManyApartmentsInputEnvelope;
+    connect?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+};
+export type disputesUpdateManyWithoutApartmentsNestedInput = {
+    create?: Prisma.XOR<Prisma.disputesCreateWithoutApartmentsInput, Prisma.disputesUncheckedCreateWithoutApartmentsInput> | Prisma.disputesCreateWithoutApartmentsInput[] | Prisma.disputesUncheckedCreateWithoutApartmentsInput[];
+    connectOrCreate?: Prisma.disputesCreateOrConnectWithoutApartmentsInput | Prisma.disputesCreateOrConnectWithoutApartmentsInput[];
+    upsert?: Prisma.disputesUpsertWithWhereUniqueWithoutApartmentsInput | Prisma.disputesUpsertWithWhereUniqueWithoutApartmentsInput[];
+    createMany?: Prisma.disputesCreateManyApartmentsInputEnvelope;
+    set?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+    disconnect?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+    delete?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+    connect?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+    update?: Prisma.disputesUpdateWithWhereUniqueWithoutApartmentsInput | Prisma.disputesUpdateWithWhereUniqueWithoutApartmentsInput[];
+    updateMany?: Prisma.disputesUpdateManyWithWhereWithoutApartmentsInput | Prisma.disputesUpdateManyWithWhereWithoutApartmentsInput[];
+    deleteMany?: Prisma.disputesScalarWhereInput | Prisma.disputesScalarWhereInput[];
+};
+export type disputesUncheckedUpdateManyWithoutApartmentsNestedInput = {
+    create?: Prisma.XOR<Prisma.disputesCreateWithoutApartmentsInput, Prisma.disputesUncheckedCreateWithoutApartmentsInput> | Prisma.disputesCreateWithoutApartmentsInput[] | Prisma.disputesUncheckedCreateWithoutApartmentsInput[];
+    connectOrCreate?: Prisma.disputesCreateOrConnectWithoutApartmentsInput | Prisma.disputesCreateOrConnectWithoutApartmentsInput[];
+    upsert?: Prisma.disputesUpsertWithWhereUniqueWithoutApartmentsInput | Prisma.disputesUpsertWithWhereUniqueWithoutApartmentsInput[];
+    createMany?: Prisma.disputesCreateManyApartmentsInputEnvelope;
+    set?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+    disconnect?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+    delete?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+    connect?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+    update?: Prisma.disputesUpdateWithWhereUniqueWithoutApartmentsInput | Prisma.disputesUpdateWithWhereUniqueWithoutApartmentsInput[];
+    updateMany?: Prisma.disputesUpdateManyWithWhereWithoutApartmentsInput | Prisma.disputesUpdateManyWithWhereWithoutApartmentsInput[];
+    deleteMany?: Prisma.disputesScalarWhereInput | Prisma.disputesScalarWhereInput[];
+};
+export type disputesCreateNestedManyWithoutBookingsInput = {
+    create?: Prisma.XOR<Prisma.disputesCreateWithoutBookingsInput, Prisma.disputesUncheckedCreateWithoutBookingsInput> | Prisma.disputesCreateWithoutBookingsInput[] | Prisma.disputesUncheckedCreateWithoutBookingsInput[];
+    connectOrCreate?: Prisma.disputesCreateOrConnectWithoutBookingsInput | Prisma.disputesCreateOrConnectWithoutBookingsInput[];
+    createMany?: Prisma.disputesCreateManyBookingsInputEnvelope;
+    connect?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+};
+export type disputesUncheckedCreateNestedManyWithoutBookingsInput = {
+    create?: Prisma.XOR<Prisma.disputesCreateWithoutBookingsInput, Prisma.disputesUncheckedCreateWithoutBookingsInput> | Prisma.disputesCreateWithoutBookingsInput[] | Prisma.disputesUncheckedCreateWithoutBookingsInput[];
+    connectOrCreate?: Prisma.disputesCreateOrConnectWithoutBookingsInput | Prisma.disputesCreateOrConnectWithoutBookingsInput[];
+    createMany?: Prisma.disputesCreateManyBookingsInputEnvelope;
+    connect?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+};
+export type disputesUpdateManyWithoutBookingsNestedInput = {
+    create?: Prisma.XOR<Prisma.disputesCreateWithoutBookingsInput, Prisma.disputesUncheckedCreateWithoutBookingsInput> | Prisma.disputesCreateWithoutBookingsInput[] | Prisma.disputesUncheckedCreateWithoutBookingsInput[];
+    connectOrCreate?: Prisma.disputesCreateOrConnectWithoutBookingsInput | Prisma.disputesCreateOrConnectWithoutBookingsInput[];
+    upsert?: Prisma.disputesUpsertWithWhereUniqueWithoutBookingsInput | Prisma.disputesUpsertWithWhereUniqueWithoutBookingsInput[];
+    createMany?: Prisma.disputesCreateManyBookingsInputEnvelope;
+    set?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+    disconnect?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+    delete?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+    connect?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+    update?: Prisma.disputesUpdateWithWhereUniqueWithoutBookingsInput | Prisma.disputesUpdateWithWhereUniqueWithoutBookingsInput[];
+    updateMany?: Prisma.disputesUpdateManyWithWhereWithoutBookingsInput | Prisma.disputesUpdateManyWithWhereWithoutBookingsInput[];
+    deleteMany?: Prisma.disputesScalarWhereInput | Prisma.disputesScalarWhereInput[];
+};
+export type disputesUncheckedUpdateManyWithoutBookingsNestedInput = {
+    create?: Prisma.XOR<Prisma.disputesCreateWithoutBookingsInput, Prisma.disputesUncheckedCreateWithoutBookingsInput> | Prisma.disputesCreateWithoutBookingsInput[] | Prisma.disputesUncheckedCreateWithoutBookingsInput[];
+    connectOrCreate?: Prisma.disputesCreateOrConnectWithoutBookingsInput | Prisma.disputesCreateOrConnectWithoutBookingsInput[];
+    upsert?: Prisma.disputesUpsertWithWhereUniqueWithoutBookingsInput | Prisma.disputesUpsertWithWhereUniqueWithoutBookingsInput[];
+    createMany?: Prisma.disputesCreateManyBookingsInputEnvelope;
+    set?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+    disconnect?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+    delete?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+    connect?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+    update?: Prisma.disputesUpdateWithWhereUniqueWithoutBookingsInput | Prisma.disputesUpdateWithWhereUniqueWithoutBookingsInput[];
+    updateMany?: Prisma.disputesUpdateManyWithWhereWithoutBookingsInput | Prisma.disputesUpdateManyWithWhereWithoutBookingsInput[];
+    deleteMany?: Prisma.disputesScalarWhereInput | Prisma.disputesScalarWhereInput[];
+};
+export type disputesCreateNestedOneWithoutDispute_messagesInput = {
+    create?: Prisma.XOR<Prisma.disputesCreateWithoutDispute_messagesInput, Prisma.disputesUncheckedCreateWithoutDispute_messagesInput>;
+    connectOrCreate?: Prisma.disputesCreateOrConnectWithoutDispute_messagesInput;
+    connect?: Prisma.disputesWhereUniqueInput;
+};
+export type disputesUpdateOneRequiredWithoutDispute_messagesNestedInput = {
+    create?: Prisma.XOR<Prisma.disputesCreateWithoutDispute_messagesInput, Prisma.disputesUncheckedCreateWithoutDispute_messagesInput>;
+    connectOrCreate?: Prisma.disputesCreateOrConnectWithoutDispute_messagesInput;
+    upsert?: Prisma.disputesUpsertWithoutDispute_messagesInput;
+    connect?: Prisma.disputesWhereUniqueInput;
+    update?: Prisma.XOR<Prisma.XOR<Prisma.disputesUpdateToOneWithWhereWithoutDispute_messagesInput, Prisma.disputesUpdateWithoutDispute_messagesInput>, Prisma.disputesUncheckedUpdateWithoutDispute_messagesInput>;
+};
+export type disputesCreateevidence_urlsInput = {
+    set: string[];
+};
+export type disputesUpdateevidence_urlsInput = {
+    set?: string[];
+    push?: string | string[];
+};
+export type Enumdispute_statusFieldUpdateOperationsInput = {
+    set?: $Enums.dispute_status;
+};
+export type NullableEnumdispute_resolutionFieldUpdateOperationsInput = {
+    set?: $Enums.dispute_resolution | null;
+};
+export type disputesCreateNestedManyWithoutUsers_disputes_against_user_idTousersInput = {
+    create?: Prisma.XOR<Prisma.disputesCreateWithoutUsers_disputes_against_user_idTousersInput, Prisma.disputesUncheckedCreateWithoutUsers_disputes_against_user_idTousersInput> | Prisma.disputesCreateWithoutUsers_disputes_against_user_idTousersInput[] | Prisma.disputesUncheckedCreateWithoutUsers_disputes_against_user_idTousersInput[];
+    connectOrCreate?: Prisma.disputesCreateOrConnectWithoutUsers_disputes_against_user_idTousersInput | Prisma.disputesCreateOrConnectWithoutUsers_disputes_against_user_idTousersInput[];
+    createMany?: Prisma.disputesCreateManyUsers_disputes_against_user_idTousersInputEnvelope;
+    connect?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+};
+export type disputesCreateNestedManyWithoutUsers_disputes_assigned_toTousersInput = {
+    create?: Prisma.XOR<Prisma.disputesCreateWithoutUsers_disputes_assigned_toTousersInput, Prisma.disputesUncheckedCreateWithoutUsers_disputes_assigned_toTousersInput> | Prisma.disputesCreateWithoutUsers_disputes_assigned_toTousersInput[] | Prisma.disputesUncheckedCreateWithoutUsers_disputes_assigned_toTousersInput[];
+    connectOrCreate?: Prisma.disputesCreateOrConnectWithoutUsers_disputes_assigned_toTousersInput | Prisma.disputesCreateOrConnectWithoutUsers_disputes_assigned_toTousersInput[];
+    createMany?: Prisma.disputesCreateManyUsers_disputes_assigned_toTousersInputEnvelope;
+    connect?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+};
+export type disputesCreateNestedManyWithoutUsers_disputes_filed_byTousersInput = {
+    create?: Prisma.XOR<Prisma.disputesCreateWithoutUsers_disputes_filed_byTousersInput, Prisma.disputesUncheckedCreateWithoutUsers_disputes_filed_byTousersInput> | Prisma.disputesCreateWithoutUsers_disputes_filed_byTousersInput[] | Prisma.disputesUncheckedCreateWithoutUsers_disputes_filed_byTousersInput[];
+    connectOrCreate?: Prisma.disputesCreateOrConnectWithoutUsers_disputes_filed_byTousersInput | Prisma.disputesCreateOrConnectWithoutUsers_disputes_filed_byTousersInput[];
+    createMany?: Prisma.disputesCreateManyUsers_disputes_filed_byTousersInputEnvelope;
+    connect?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+};
+export type disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_user_idTousersInput = {
+    create?: Prisma.XOR<Prisma.disputesCreateWithoutUsers_disputes_against_user_idTousersInput, Prisma.disputesUncheckedCreateWithoutUsers_disputes_against_user_idTousersInput> | Prisma.disputesCreateWithoutUsers_disputes_against_user_idTousersInput[] | Prisma.disputesUncheckedCreateWithoutUsers_disputes_against_user_idTousersInput[];
+    connectOrCreate?: Prisma.disputesCreateOrConnectWithoutUsers_disputes_against_user_idTousersInput | Prisma.disputesCreateOrConnectWithoutUsers_disputes_against_user_idTousersInput[];
+    createMany?: Prisma.disputesCreateManyUsers_disputes_against_user_idTousersInputEnvelope;
+    connect?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+};
+export type disputesUncheckedCreateNestedManyWithoutUsers_disputes_assigned_toTousersInput = {
+    create?: Prisma.XOR<Prisma.disputesCreateWithoutUsers_disputes_assigned_toTousersInput, Prisma.disputesUncheckedCreateWithoutUsers_disputes_assigned_toTousersInput> | Prisma.disputesCreateWithoutUsers_disputes_assigned_toTousersInput[] | Prisma.disputesUncheckedCreateWithoutUsers_disputes_assigned_toTousersInput[];
+    connectOrCreate?: Prisma.disputesCreateOrConnectWithoutUsers_disputes_assigned_toTousersInput | Prisma.disputesCreateOrConnectWithoutUsers_disputes_assigned_toTousersInput[];
+    createMany?: Prisma.disputesCreateManyUsers_disputes_assigned_toTousersInputEnvelope;
+    connect?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+};
+export type disputesUncheckedCreateNestedManyWithoutUsers_disputes_filed_byTousersInput = {
+    create?: Prisma.XOR<Prisma.disputesCreateWithoutUsers_disputes_filed_byTousersInput, Prisma.disputesUncheckedCreateWithoutUsers_disputes_filed_byTousersInput> | Prisma.disputesCreateWithoutUsers_disputes_filed_byTousersInput[] | Prisma.disputesUncheckedCreateWithoutUsers_disputes_filed_byTousersInput[];
+    connectOrCreate?: Prisma.disputesCreateOrConnectWithoutUsers_disputes_filed_byTousersInput | Prisma.disputesCreateOrConnectWithoutUsers_disputes_filed_byTousersInput[];
+    createMany?: Prisma.disputesCreateManyUsers_disputes_filed_byTousersInputEnvelope;
+    connect?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+};
+export type disputesUpdateManyWithoutUsers_disputes_against_user_idTousersNestedInput = {
+    create?: Prisma.XOR<Prisma.disputesCreateWithoutUsers_disputes_against_user_idTousersInput, Prisma.disputesUncheckedCreateWithoutUsers_disputes_against_user_idTousersInput> | Prisma.disputesCreateWithoutUsers_disputes_against_user_idTousersInput[] | Prisma.disputesUncheckedCreateWithoutUsers_disputes_against_user_idTousersInput[];
+    connectOrCreate?: Prisma.disputesCreateOrConnectWithoutUsers_disputes_against_user_idTousersInput | Prisma.disputesCreateOrConnectWithoutUsers_disputes_against_user_idTousersInput[];
+    upsert?: Prisma.disputesUpsertWithWhereUniqueWithoutUsers_disputes_against_user_idTousersInput | Prisma.disputesUpsertWithWhereUniqueWithoutUsers_disputes_against_user_idTousersInput[];
+    createMany?: Prisma.disputesCreateManyUsers_disputes_against_user_idTousersInputEnvelope;
+    set?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+    disconnect?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+    delete?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+    connect?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+    update?: Prisma.disputesUpdateWithWhereUniqueWithoutUsers_disputes_against_user_idTousersInput | Prisma.disputesUpdateWithWhereUniqueWithoutUsers_disputes_against_user_idTousersInput[];
+    updateMany?: Prisma.disputesUpdateManyWithWhereWithoutUsers_disputes_against_user_idTousersInput | Prisma.disputesUpdateManyWithWhereWithoutUsers_disputes_against_user_idTousersInput[];
+    deleteMany?: Prisma.disputesScalarWhereInput | Prisma.disputesScalarWhereInput[];
+};
+export type disputesUpdateManyWithoutUsers_disputes_assigned_toTousersNestedInput = {
+    create?: Prisma.XOR<Prisma.disputesCreateWithoutUsers_disputes_assigned_toTousersInput, Prisma.disputesUncheckedCreateWithoutUsers_disputes_assigned_toTousersInput> | Prisma.disputesCreateWithoutUsers_disputes_assigned_toTousersInput[] | Prisma.disputesUncheckedCreateWithoutUsers_disputes_assigned_toTousersInput[];
+    connectOrCreate?: Prisma.disputesCreateOrConnectWithoutUsers_disputes_assigned_toTousersInput | Prisma.disputesCreateOrConnectWithoutUsers_disputes_assigned_toTousersInput[];
+    upsert?: Prisma.disputesUpsertWithWhereUniqueWithoutUsers_disputes_assigned_toTousersInput | Prisma.disputesUpsertWithWhereUniqueWithoutUsers_disputes_assigned_toTousersInput[];
+    createMany?: Prisma.disputesCreateManyUsers_disputes_assigned_toTousersInputEnvelope;
+    set?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+    disconnect?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+    delete?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+    connect?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+    update?: Prisma.disputesUpdateWithWhereUniqueWithoutUsers_disputes_assigned_toTousersInput | Prisma.disputesUpdateWithWhereUniqueWithoutUsers_disputes_assigned_toTousersInput[];
+    updateMany?: Prisma.disputesUpdateManyWithWhereWithoutUsers_disputes_assigned_toTousersInput | Prisma.disputesUpdateManyWithWhereWithoutUsers_disputes_assigned_toTousersInput[];
+    deleteMany?: Prisma.disputesScalarWhereInput | Prisma.disputesScalarWhereInput[];
+};
+export type disputesUpdateManyWithoutUsers_disputes_filed_byTousersNestedInput = {
+    create?: Prisma.XOR<Prisma.disputesCreateWithoutUsers_disputes_filed_byTousersInput, Prisma.disputesUncheckedCreateWithoutUsers_disputes_filed_byTousersInput> | Prisma.disputesCreateWithoutUsers_disputes_filed_byTousersInput[] | Prisma.disputesUncheckedCreateWithoutUsers_disputes_filed_byTousersInput[];
+    connectOrCreate?: Prisma.disputesCreateOrConnectWithoutUsers_disputes_filed_byTousersInput | Prisma.disputesCreateOrConnectWithoutUsers_disputes_filed_byTousersInput[];
+    upsert?: Prisma.disputesUpsertWithWhereUniqueWithoutUsers_disputes_filed_byTousersInput | Prisma.disputesUpsertWithWhereUniqueWithoutUsers_disputes_filed_byTousersInput[];
+    createMany?: Prisma.disputesCreateManyUsers_disputes_filed_byTousersInputEnvelope;
+    set?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+    disconnect?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+    delete?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+    connect?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+    update?: Prisma.disputesUpdateWithWhereUniqueWithoutUsers_disputes_filed_byTousersInput | Prisma.disputesUpdateWithWhereUniqueWithoutUsers_disputes_filed_byTousersInput[];
+    updateMany?: Prisma.disputesUpdateManyWithWhereWithoutUsers_disputes_filed_byTousersInput | Prisma.disputesUpdateManyWithWhereWithoutUsers_disputes_filed_byTousersInput[];
+    deleteMany?: Prisma.disputesScalarWhereInput | Prisma.disputesScalarWhereInput[];
+};
+export type disputesUncheckedUpdateManyWithoutUsers_disputes_against_user_idTousersNestedInput = {
+    create?: Prisma.XOR<Prisma.disputesCreateWithoutUsers_disputes_against_user_idTousersInput, Prisma.disputesUncheckedCreateWithoutUsers_disputes_against_user_idTousersInput> | Prisma.disputesCreateWithoutUsers_disputes_against_user_idTousersInput[] | Prisma.disputesUncheckedCreateWithoutUsers_disputes_against_user_idTousersInput[];
+    connectOrCreate?: Prisma.disputesCreateOrConnectWithoutUsers_disputes_against_user_idTousersInput | Prisma.disputesCreateOrConnectWithoutUsers_disputes_against_user_idTousersInput[];
+    upsert?: Prisma.disputesUpsertWithWhereUniqueWithoutUsers_disputes_against_user_idTousersInput | Prisma.disputesUpsertWithWhereUniqueWithoutUsers_disputes_against_user_idTousersInput[];
+    createMany?: Prisma.disputesCreateManyUsers_disputes_against_user_idTousersInputEnvelope;
+    set?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+    disconnect?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+    delete?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+    connect?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+    update?: Prisma.disputesUpdateWithWhereUniqueWithoutUsers_disputes_against_user_idTousersInput | Prisma.disputesUpdateWithWhereUniqueWithoutUsers_disputes_against_user_idTousersInput[];
+    updateMany?: Prisma.disputesUpdateManyWithWhereWithoutUsers_disputes_against_user_idTousersInput | Prisma.disputesUpdateManyWithWhereWithoutUsers_disputes_against_user_idTousersInput[];
+    deleteMany?: Prisma.disputesScalarWhereInput | Prisma.disputesScalarWhereInput[];
+};
+export type disputesUncheckedUpdateManyWithoutUsers_disputes_assigned_toTousersNestedInput = {
+    create?: Prisma.XOR<Prisma.disputesCreateWithoutUsers_disputes_assigned_toTousersInput, Prisma.disputesUncheckedCreateWithoutUsers_disputes_assigned_toTousersInput> | Prisma.disputesCreateWithoutUsers_disputes_assigned_toTousersInput[] | Prisma.disputesUncheckedCreateWithoutUsers_disputes_assigned_toTousersInput[];
+    connectOrCreate?: Prisma.disputesCreateOrConnectWithoutUsers_disputes_assigned_toTousersInput | Prisma.disputesCreateOrConnectWithoutUsers_disputes_assigned_toTousersInput[];
+    upsert?: Prisma.disputesUpsertWithWhereUniqueWithoutUsers_disputes_assigned_toTousersInput | Prisma.disputesUpsertWithWhereUniqueWithoutUsers_disputes_assigned_toTousersInput[];
+    createMany?: Prisma.disputesCreateManyUsers_disputes_assigned_toTousersInputEnvelope;
+    set?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+    disconnect?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+    delete?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+    connect?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+    update?: Prisma.disputesUpdateWithWhereUniqueWithoutUsers_disputes_assigned_toTousersInput | Prisma.disputesUpdateWithWhereUniqueWithoutUsers_disputes_assigned_toTousersInput[];
+    updateMany?: Prisma.disputesUpdateManyWithWhereWithoutUsers_disputes_assigned_toTousersInput | Prisma.disputesUpdateManyWithWhereWithoutUsers_disputes_assigned_toTousersInput[];
+    deleteMany?: Prisma.disputesScalarWhereInput | Prisma.disputesScalarWhereInput[];
+};
+export type disputesUncheckedUpdateManyWithoutUsers_disputes_filed_byTousersNestedInput = {
+    create?: Prisma.XOR<Prisma.disputesCreateWithoutUsers_disputes_filed_byTousersInput, Prisma.disputesUncheckedCreateWithoutUsers_disputes_filed_byTousersInput> | Prisma.disputesCreateWithoutUsers_disputes_filed_byTousersInput[] | Prisma.disputesUncheckedCreateWithoutUsers_disputes_filed_byTousersInput[];
+    connectOrCreate?: Prisma.disputesCreateOrConnectWithoutUsers_disputes_filed_byTousersInput | Prisma.disputesCreateOrConnectWithoutUsers_disputes_filed_byTousersInput[];
+    upsert?: Prisma.disputesUpsertWithWhereUniqueWithoutUsers_disputes_filed_byTousersInput | Prisma.disputesUpsertWithWhereUniqueWithoutUsers_disputes_filed_byTousersInput[];
+    createMany?: Prisma.disputesCreateManyUsers_disputes_filed_byTousersInputEnvelope;
+    set?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+    disconnect?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+    delete?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+    connect?: Prisma.disputesWhereUniqueInput | Prisma.disputesWhereUniqueInput[];
+    update?: Prisma.disputesUpdateWithWhereUniqueWithoutUsers_disputes_filed_byTousersInput | Prisma.disputesUpdateWithWhereUniqueWithoutUsers_disputes_filed_byTousersInput[];
+    updateMany?: Prisma.disputesUpdateManyWithWhereWithoutUsers_disputes_filed_byTousersInput | Prisma.disputesUpdateManyWithWhereWithoutUsers_disputes_filed_byTousersInput[];
+    deleteMany?: Prisma.disputesScalarWhereInput | Prisma.disputesScalarWhereInput[];
+};
+export type disputesCreateWithoutApartmentsInput = {
+    id?: string;
+    subject: string;
+    description: string;
+    evidence_urls?: Prisma.disputesCreateevidence_urlsInput | string[];
+    status?: $Enums.dispute_status;
+    resolution?: $Enums.dispute_resolution | null;
+    resolution_notes?: string | null;
+    resolved_at?: Date | string | null;
+    created_at?: Date | string;
+    updated_at?: Date | string;
+    dispute_messages?: Prisma.dispute_messagesCreateNestedManyWithoutDisputesInput;
+    users_disputes_against_user_idTousers: Prisma.usersCreateNestedOneWithoutDisputes_disputes_against_user_idTousersInput;
+    users_disputes_assigned_toTousers?: Prisma.usersCreateNestedOneWithoutDisputes_disputes_assigned_toTousersInput;
+    bookings: Prisma.bookingsCreateNestedOneWithoutDisputesInput;
+    users_disputes_filed_byTousers: Prisma.usersCreateNestedOneWithoutDisputes_disputes_filed_byTousersInput;
+};
+export type disputesUncheckedCreateWithoutApartmentsInput = {
+    id?: string;
+    booking_id: string;
+    filed_by: string;
+    against_user_id: string;
+    subject: string;
+    description: string;
+    evidence_urls?: Prisma.disputesCreateevidence_urlsInput | string[];
+    status?: $Enums.dispute_status;
+    assigned_to?: string | null;
+    resolution?: $Enums.dispute_resolution | null;
+    resolution_notes?: string | null;
+    resolved_at?: Date | string | null;
+    created_at?: Date | string;
+    updated_at?: Date | string;
+    dispute_messages?: Prisma.dispute_messagesUncheckedCreateNestedManyWithoutDisputesInput;
+};
+export type disputesCreateOrConnectWithoutApartmentsInput = {
+    where: Prisma.disputesWhereUniqueInput;
+    create: Prisma.XOR<Prisma.disputesCreateWithoutApartmentsInput, Prisma.disputesUncheckedCreateWithoutApartmentsInput>;
+};
+export type disputesCreateManyApartmentsInputEnvelope = {
+    data: Prisma.disputesCreateManyApartmentsInput | Prisma.disputesCreateManyApartmentsInput[];
+    skipDuplicates?: boolean;
+};
+export type disputesUpsertWithWhereUniqueWithoutApartmentsInput = {
+    where: Prisma.disputesWhereUniqueInput;
+    update: Prisma.XOR<Prisma.disputesUpdateWithoutApartmentsInput, Prisma.disputesUncheckedUpdateWithoutApartmentsInput>;
+    create: Prisma.XOR<Prisma.disputesCreateWithoutApartmentsInput, Prisma.disputesUncheckedCreateWithoutApartmentsInput>;
+};
+export type disputesUpdateWithWhereUniqueWithoutApartmentsInput = {
+    where: Prisma.disputesWhereUniqueInput;
+    data: Prisma.XOR<Prisma.disputesUpdateWithoutApartmentsInput, Prisma.disputesUncheckedUpdateWithoutApartmentsInput>;
+};
+export type disputesUpdateManyWithWhereWithoutApartmentsInput = {
+    where: Prisma.disputesScalarWhereInput;
+    data: Prisma.XOR<Prisma.disputesUpdateManyMutationInput, Prisma.disputesUncheckedUpdateManyWithoutApartmentsInput>;
+};
+export type disputesScalarWhereInput = {
+    AND?: Prisma.disputesScalarWhereInput | Prisma.disputesScalarWhereInput[];
+    OR?: Prisma.disputesScalarWhereInput[];
+    NOT?: Prisma.disputesScalarWhereInput | Prisma.disputesScalarWhereInput[];
+    id?: Prisma.UuidFilter<"disputes"> | string;
+    booking_id?: Prisma.UuidFilter<"disputes"> | string;
+    filed_by?: Prisma.UuidFilter<"disputes"> | string;
+    against_user_id?: Prisma.UuidFilter<"disputes"> | string;
+    apartment_id?: Prisma.UuidFilter<"disputes"> | string;
+    subject?: Prisma.StringFilter<"disputes"> | string;
+    description?: Prisma.StringFilter<"disputes"> | string;
+    evidence_urls?: Prisma.StringNullableListFilter<"disputes">;
+    status?: Prisma.Enumdispute_statusFilter<"disputes"> | $Enums.dispute_status;
+    assigned_to?: Prisma.UuidNullableFilter<"disputes"> | string | null;
+    resolution?: Prisma.Enumdispute_resolutionNullableFilter<"disputes"> | $Enums.dispute_resolution | null;
+    resolution_notes?: Prisma.StringNullableFilter<"disputes"> | string | null;
+    resolved_at?: Prisma.DateTimeNullableFilter<"disputes"> | Date | string | null;
+    created_at?: Prisma.DateTimeFilter<"disputes"> | Date | string;
+    updated_at?: Prisma.DateTimeFilter<"disputes"> | Date | string;
+};
+export type disputesCreateWithoutBookingsInput = {
+    id?: string;
+    subject: string;
+    description: string;
+    evidence_urls?: Prisma.disputesCreateevidence_urlsInput | string[];
+    status?: $Enums.dispute_status;
+    resolution?: $Enums.dispute_resolution | null;
+    resolution_notes?: string | null;
+    resolved_at?: Date | string | null;
+    created_at?: Date | string;
+    updated_at?: Date | string;
+    dispute_messages?: Prisma.dispute_messagesCreateNestedManyWithoutDisputesInput;
+    users_disputes_against_user_idTousers: Prisma.usersCreateNestedOneWithoutDisputes_disputes_against_user_idTousersInput;
+    apartments: Prisma.apartmentsCreateNestedOneWithoutDisputesInput;
+    users_disputes_assigned_toTousers?: Prisma.usersCreateNestedOneWithoutDisputes_disputes_assigned_toTousersInput;
+    users_disputes_filed_byTousers: Prisma.usersCreateNestedOneWithoutDisputes_disputes_filed_byTousersInput;
+};
+export type disputesUncheckedCreateWithoutBookingsInput = {
+    id?: string;
+    filed_by: string;
+    against_user_id: string;
+    apartment_id: string;
+    subject: string;
+    description: string;
+    evidence_urls?: Prisma.disputesCreateevidence_urlsInput | string[];
+    status?: $Enums.dispute_status;
+    assigned_to?: string | null;
+    resolution?: $Enums.dispute_resolution | null;
+    resolution_notes?: string | null;
+    resolved_at?: Date | string | null;
+    created_at?: Date | string;
+    updated_at?: Date | string;
+    dispute_messages?: Prisma.dispute_messagesUncheckedCreateNestedManyWithoutDisputesInput;
+};
+export type disputesCreateOrConnectWithoutBookingsInput = {
+    where: Prisma.disputesWhereUniqueInput;
+    create: Prisma.XOR<Prisma.disputesCreateWithoutBookingsInput, Prisma.disputesUncheckedCreateWithoutBookingsInput>;
+};
+export type disputesCreateManyBookingsInputEnvelope = {
+    data: Prisma.disputesCreateManyBookingsInput | Prisma.disputesCreateManyBookingsInput[];
+    skipDuplicates?: boolean;
+};
+export type disputesUpsertWithWhereUniqueWithoutBookingsInput = {
+    where: Prisma.disputesWhereUniqueInput;
+    update: Prisma.XOR<Prisma.disputesUpdateWithoutBookingsInput, Prisma.disputesUncheckedUpdateWithoutBookingsInput>;
+    create: Prisma.XOR<Prisma.disputesCreateWithoutBookingsInput, Prisma.disputesUncheckedCreateWithoutBookingsInput>;
+};
+export type disputesUpdateWithWhereUniqueWithoutBookingsInput = {
+    where: Prisma.disputesWhereUniqueInput;
+    data: Prisma.XOR<Prisma.disputesUpdateWithoutBookingsInput, Prisma.disputesUncheckedUpdateWithoutBookingsInput>;
+};
+export type disputesUpdateManyWithWhereWithoutBookingsInput = {
+    where: Prisma.disputesScalarWhereInput;
+    data: Prisma.XOR<Prisma.disputesUpdateManyMutationInput, Prisma.disputesUncheckedUpdateManyWithoutBookingsInput>;
+};
+export type disputesCreateWithoutDispute_messagesInput = {
+    id?: string;
+    subject: string;
+    description: string;
+    evidence_urls?: Prisma.disputesCreateevidence_urlsInput | string[];
+    status?: $Enums.dispute_status;
+    resolution?: $Enums.dispute_resolution | null;
+    resolution_notes?: string | null;
+    resolved_at?: Date | string | null;
+    created_at?: Date | string;
+    updated_at?: Date | string;
+    users_disputes_against_user_idTousers: Prisma.usersCreateNestedOneWithoutDisputes_disputes_against_user_idTousersInput;
+    apartments: Prisma.apartmentsCreateNestedOneWithoutDisputesInput;
+    users_disputes_assigned_toTousers?: Prisma.usersCreateNestedOneWithoutDisputes_disputes_assigned_toTousersInput;
+    bookings: Prisma.bookingsCreateNestedOneWithoutDisputesInput;
+    users_disputes_filed_byTousers: Prisma.usersCreateNestedOneWithoutDisputes_disputes_filed_byTousersInput;
+};
+export type disputesUncheckedCreateWithoutDispute_messagesInput = {
+    id?: string;
+    booking_id: string;
+    filed_by: string;
+    against_user_id: string;
+    apartment_id: string;
+    subject: string;
+    description: string;
+    evidence_urls?: Prisma.disputesCreateevidence_urlsInput | string[];
+    status?: $Enums.dispute_status;
+    assigned_to?: string | null;
+    resolution?: $Enums.dispute_resolution | null;
+    resolution_notes?: string | null;
+    resolved_at?: Date | string | null;
+    created_at?: Date | string;
+    updated_at?: Date | string;
+};
+export type disputesCreateOrConnectWithoutDispute_messagesInput = {
+    where: Prisma.disputesWhereUniqueInput;
+    create: Prisma.XOR<Prisma.disputesCreateWithoutDispute_messagesInput, Prisma.disputesUncheckedCreateWithoutDispute_messagesInput>;
+};
+export type disputesUpsertWithoutDispute_messagesInput = {
+    update: Prisma.XOR<Prisma.disputesUpdateWithoutDispute_messagesInput, Prisma.disputesUncheckedUpdateWithoutDispute_messagesInput>;
+    create: Prisma.XOR<Prisma.disputesCreateWithoutDispute_messagesInput, Prisma.disputesUncheckedCreateWithoutDispute_messagesInput>;
+    where?: Prisma.disputesWhereInput;
+};
+export type disputesUpdateToOneWithWhereWithoutDispute_messagesInput = {
+    where?: Prisma.disputesWhereInput;
+    data: Prisma.XOR<Prisma.disputesUpdateWithoutDispute_messagesInput, Prisma.disputesUncheckedUpdateWithoutDispute_messagesInput>;
+};
+export type disputesUpdateWithoutDispute_messagesInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    subject?: Prisma.StringFieldUpdateOperationsInput | string;
+    description?: Prisma.StringFieldUpdateOperationsInput | string;
+    evidence_urls?: Prisma.disputesUpdateevidence_urlsInput | string[];
+    status?: Prisma.Enumdispute_statusFieldUpdateOperationsInput | $Enums.dispute_status;
+    resolution?: Prisma.NullableEnumdispute_resolutionFieldUpdateOperationsInput | $Enums.dispute_resolution | null;
+    resolution_notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    users_disputes_against_user_idTousers?: Prisma.usersUpdateOneRequiredWithoutDisputes_disputes_against_user_idTousersNestedInput;
+    apartments?: Prisma.apartmentsUpdateOneRequiredWithoutDisputesNestedInput;
+    users_disputes_assigned_toTousers?: Prisma.usersUpdateOneWithoutDisputes_disputes_assigned_toTousersNestedInput;
+    bookings?: Prisma.bookingsUpdateOneRequiredWithoutDisputesNestedInput;
+    users_disputes_filed_byTousers?: Prisma.usersUpdateOneRequiredWithoutDisputes_disputes_filed_byTousersNestedInput;
+};
+export type disputesUncheckedUpdateWithoutDispute_messagesInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    booking_id?: Prisma.StringFieldUpdateOperationsInput | string;
+    filed_by?: Prisma.StringFieldUpdateOperationsInput | string;
+    against_user_id?: Prisma.StringFieldUpdateOperationsInput | string;
+    apartment_id?: Prisma.StringFieldUpdateOperationsInput | string;
+    subject?: Prisma.StringFieldUpdateOperationsInput | string;
+    description?: Prisma.StringFieldUpdateOperationsInput | string;
+    evidence_urls?: Prisma.disputesUpdateevidence_urlsInput | string[];
+    status?: Prisma.Enumdispute_statusFieldUpdateOperationsInput | $Enums.dispute_status;
+    assigned_to?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resolution?: Prisma.NullableEnumdispute_resolutionFieldUpdateOperationsInput | $Enums.dispute_resolution | null;
+    resolution_notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+};
+export type disputesCreateWithoutUsers_disputes_against_user_idTousersInput = {
+    id?: string;
+    subject: string;
+    description: string;
+    evidence_urls?: Prisma.disputesCreateevidence_urlsInput | string[];
+    status?: $Enums.dispute_status;
+    resolution?: $Enums.dispute_resolution | null;
+    resolution_notes?: string | null;
+    resolved_at?: Date | string | null;
+    created_at?: Date | string;
+    updated_at?: Date | string;
+    dispute_messages?: Prisma.dispute_messagesCreateNestedManyWithoutDisputesInput;
+    apartments: Prisma.apartmentsCreateNestedOneWithoutDisputesInput;
+    users_disputes_assigned_toTousers?: Prisma.usersCreateNestedOneWithoutDisputes_disputes_assigned_toTousersInput;
+    bookings: Prisma.bookingsCreateNestedOneWithoutDisputesInput;
+    users_disputes_filed_byTousers: Prisma.usersCreateNestedOneWithoutDisputes_disputes_filed_byTousersInput;
+};
+export type disputesUncheckedCreateWithoutUsers_disputes_against_user_idTousersInput = {
+    id?: string;
+    booking_id: string;
+    filed_by: string;
+    apartment_id: string;
+    subject: string;
+    description: string;
+    evidence_urls?: Prisma.disputesCreateevidence_urlsInput | string[];
+    status?: $Enums.dispute_status;
+    assigned_to?: string | null;
+    resolution?: $Enums.dispute_resolution | null;
+    resolution_notes?: string | null;
+    resolved_at?: Date | string | null;
+    created_at?: Date | string;
+    updated_at?: Date | string;
+    dispute_messages?: Prisma.dispute_messagesUncheckedCreateNestedManyWithoutDisputesInput;
+};
+export type disputesCreateOrConnectWithoutUsers_disputes_against_user_idTousersInput = {
+    where: Prisma.disputesWhereUniqueInput;
+    create: Prisma.XOR<Prisma.disputesCreateWithoutUsers_disputes_against_user_idTousersInput, Prisma.disputesUncheckedCreateWithoutUsers_disputes_against_user_idTousersInput>;
+};
+export type disputesCreateManyUsers_disputes_against_user_idTousersInputEnvelope = {
+    data: Prisma.disputesCreateManyUsers_disputes_against_user_idTousersInput | Prisma.disputesCreateManyUsers_disputes_against_user_idTousersInput[];
+    skipDuplicates?: boolean;
+};
+export type disputesCreateWithoutUsers_disputes_assigned_toTousersInput = {
+    id?: string;
+    subject: string;
+    description: string;
+    evidence_urls?: Prisma.disputesCreateevidence_urlsInput | string[];
+    status?: $Enums.dispute_status;
+    resolution?: $Enums.dispute_resolution | null;
+    resolution_notes?: string | null;
+    resolved_at?: Date | string | null;
+    created_at?: Date | string;
+    updated_at?: Date | string;
+    dispute_messages?: Prisma.dispute_messagesCreateNestedManyWithoutDisputesInput;
+    users_disputes_against_user_idTousers: Prisma.usersCreateNestedOneWithoutDisputes_disputes_against_user_idTousersInput;
+    apartments: Prisma.apartmentsCreateNestedOneWithoutDisputesInput;
+    bookings: Prisma.bookingsCreateNestedOneWithoutDisputesInput;
+    users_disputes_filed_byTousers: Prisma.usersCreateNestedOneWithoutDisputes_disputes_filed_byTousersInput;
+};
+export type disputesUncheckedCreateWithoutUsers_disputes_assigned_toTousersInput = {
+    id?: string;
+    booking_id: string;
+    filed_by: string;
+    against_user_id: string;
+    apartment_id: string;
+    subject: string;
+    description: string;
+    evidence_urls?: Prisma.disputesCreateevidence_urlsInput | string[];
+    status?: $Enums.dispute_status;
+    resolution?: $Enums.dispute_resolution | null;
+    resolution_notes?: string | null;
+    resolved_at?: Date | string | null;
+    created_at?: Date | string;
+    updated_at?: Date | string;
+    dispute_messages?: Prisma.dispute_messagesUncheckedCreateNestedManyWithoutDisputesInput;
+};
+export type disputesCreateOrConnectWithoutUsers_disputes_assigned_toTousersInput = {
+    where: Prisma.disputesWhereUniqueInput;
+    create: Prisma.XOR<Prisma.disputesCreateWithoutUsers_disputes_assigned_toTousersInput, Prisma.disputesUncheckedCreateWithoutUsers_disputes_assigned_toTousersInput>;
+};
+export type disputesCreateManyUsers_disputes_assigned_toTousersInputEnvelope = {
+    data: Prisma.disputesCreateManyUsers_disputes_assigned_toTousersInput | Prisma.disputesCreateManyUsers_disputes_assigned_toTousersInput[];
+    skipDuplicates?: boolean;
+};
+export type disputesCreateWithoutUsers_disputes_filed_byTousersInput = {
+    id?: string;
+    subject: string;
+    description: string;
+    evidence_urls?: Prisma.disputesCreateevidence_urlsInput | string[];
+    status?: $Enums.dispute_status;
+    resolution?: $Enums.dispute_resolution | null;
+    resolution_notes?: string | null;
+    resolved_at?: Date | string | null;
+    created_at?: Date | string;
+    updated_at?: Date | string;
+    dispute_messages?: Prisma.dispute_messagesCreateNestedManyWithoutDisputesInput;
+    users_disputes_against_user_idTousers: Prisma.usersCreateNestedOneWithoutDisputes_disputes_against_user_idTousersInput;
+    apartments: Prisma.apartmentsCreateNestedOneWithoutDisputesInput;
+    users_disputes_assigned_toTousers?: Prisma.usersCreateNestedOneWithoutDisputes_disputes_assigned_toTousersInput;
+    bookings: Prisma.bookingsCreateNestedOneWithoutDisputesInput;
+};
+export type disputesUncheckedCreateWithoutUsers_disputes_filed_byTousersInput = {
+    id?: string;
+    booking_id: string;
+    against_user_id: string;
+    apartment_id: string;
+    subject: string;
+    description: string;
+    evidence_urls?: Prisma.disputesCreateevidence_urlsInput | string[];
+    status?: $Enums.dispute_status;
+    assigned_to?: string | null;
+    resolution?: $Enums.dispute_resolution | null;
+    resolution_notes?: string | null;
+    resolved_at?: Date | string | null;
+    created_at?: Date | string;
+    updated_at?: Date | string;
+    dispute_messages?: Prisma.dispute_messagesUncheckedCreateNestedManyWithoutDisputesInput;
+};
+export type disputesCreateOrConnectWithoutUsers_disputes_filed_byTousersInput = {
+    where: Prisma.disputesWhereUniqueInput;
+    create: Prisma.XOR<Prisma.disputesCreateWithoutUsers_disputes_filed_byTousersInput, Prisma.disputesUncheckedCreateWithoutUsers_disputes_filed_byTousersInput>;
+};
+export type disputesCreateManyUsers_disputes_filed_byTousersInputEnvelope = {
+    data: Prisma.disputesCreateManyUsers_disputes_filed_byTousersInput | Prisma.disputesCreateManyUsers_disputes_filed_byTousersInput[];
+    skipDuplicates?: boolean;
+};
+export type disputesUpsertWithWhereUniqueWithoutUsers_disputes_against_user_idTousersInput = {
+    where: Prisma.disputesWhereUniqueInput;
+    update: Prisma.XOR<Prisma.disputesUpdateWithoutUsers_disputes_against_user_idTousersInput, Prisma.disputesUncheckedUpdateWithoutUsers_disputes_against_user_idTousersInput>;
+    create: Prisma.XOR<Prisma.disputesCreateWithoutUsers_disputes_against_user_idTousersInput, Prisma.disputesUncheckedCreateWithoutUsers_disputes_against_user_idTousersInput>;
+};
+export type disputesUpdateWithWhereUniqueWithoutUsers_disputes_against_user_idTousersInput = {
+    where: Prisma.disputesWhereUniqueInput;
+    data: Prisma.XOR<Prisma.disputesUpdateWithoutUsers_disputes_against_user_idTousersInput, Prisma.disputesUncheckedUpdateWithoutUsers_disputes_against_user_idTousersInput>;
+};
+export type disputesUpdateManyWithWhereWithoutUsers_disputes_against_user_idTousersInput = {
+    where: Prisma.disputesScalarWhereInput;
+    data: Prisma.XOR<Prisma.disputesUpdateManyMutationInput, Prisma.disputesUncheckedUpdateManyWithoutUsers_disputes_against_user_idTousersInput>;
+};
+export type disputesUpsertWithWhereUniqueWithoutUsers_disputes_assigned_toTousersInput = {
+    where: Prisma.disputesWhereUniqueInput;
+    update: Prisma.XOR<Prisma.disputesUpdateWithoutUsers_disputes_assigned_toTousersInput, Prisma.disputesUncheckedUpdateWithoutUsers_disputes_assigned_toTousersInput>;
+    create: Prisma.XOR<Prisma.disputesCreateWithoutUsers_disputes_assigned_toTousersInput, Prisma.disputesUncheckedCreateWithoutUsers_disputes_assigned_toTousersInput>;
+};
+export type disputesUpdateWithWhereUniqueWithoutUsers_disputes_assigned_toTousersInput = {
+    where: Prisma.disputesWhereUniqueInput;
+    data: Prisma.XOR<Prisma.disputesUpdateWithoutUsers_disputes_assigned_toTousersInput, Prisma.disputesUncheckedUpdateWithoutUsers_disputes_assigned_toTousersInput>;
+};
+export type disputesUpdateManyWithWhereWithoutUsers_disputes_assigned_toTousersInput = {
+    where: Prisma.disputesScalarWhereInput;
+    data: Prisma.XOR<Prisma.disputesUpdateManyMutationInput, Prisma.disputesUncheckedUpdateManyWithoutUsers_disputes_assigned_toTousersInput>;
+};
+export type disputesUpsertWithWhereUniqueWithoutUsers_disputes_filed_byTousersInput = {
+    where: Prisma.disputesWhereUniqueInput;
+    update: Prisma.XOR<Prisma.disputesUpdateWithoutUsers_disputes_filed_byTousersInput, Prisma.disputesUncheckedUpdateWithoutUsers_disputes_filed_byTousersInput>;
+    create: Prisma.XOR<Prisma.disputesCreateWithoutUsers_disputes_filed_byTousersInput, Prisma.disputesUncheckedCreateWithoutUsers_disputes_filed_byTousersInput>;
+};
+export type disputesUpdateWithWhereUniqueWithoutUsers_disputes_filed_byTousersInput = {
+    where: Prisma.disputesWhereUniqueInput;
+    data: Prisma.XOR<Prisma.disputesUpdateWithoutUsers_disputes_filed_byTousersInput, Prisma.disputesUncheckedUpdateWithoutUsers_disputes_filed_byTousersInput>;
+};
+export type disputesUpdateManyWithWhereWithoutUsers_disputes_filed_byTousersInput = {
+    where: Prisma.disputesScalarWhereInput;
+    data: Prisma.XOR<Prisma.disputesUpdateManyMutationInput, Prisma.disputesUncheckedUpdateManyWithoutUsers_disputes_filed_byTousersInput>;
+};
+export type disputesCreateManyApartmentsInput = {
+    id?: string;
+    booking_id: string;
+    filed_by: string;
+    against_user_id: string;
+    subject: string;
+    description: string;
+    evidence_urls?: Prisma.disputesCreateevidence_urlsInput | string[];
+    status?: $Enums.dispute_status;
+    assigned_to?: string | null;
+    resolution?: $Enums.dispute_resolution | null;
+    resolution_notes?: string | null;
+    resolved_at?: Date | string | null;
+    created_at?: Date | string;
+    updated_at?: Date | string;
+};
+export type disputesUpdateWithoutApartmentsInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    subject?: Prisma.StringFieldUpdateOperationsInput | string;
+    description?: Prisma.StringFieldUpdateOperationsInput | string;
+    evidence_urls?: Prisma.disputesUpdateevidence_urlsInput | string[];
+    status?: Prisma.Enumdispute_statusFieldUpdateOperationsInput | $Enums.dispute_status;
+    resolution?: Prisma.NullableEnumdispute_resolutionFieldUpdateOperationsInput | $Enums.dispute_resolution | null;
+    resolution_notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    dispute_messages?: Prisma.dispute_messagesUpdateManyWithoutDisputesNestedInput;
+    users_disputes_against_user_idTousers?: Prisma.usersUpdateOneRequiredWithoutDisputes_disputes_against_user_idTousersNestedInput;
+    users_disputes_assigned_toTousers?: Prisma.usersUpdateOneWithoutDisputes_disputes_assigned_toTousersNestedInput;
+    bookings?: Prisma.bookingsUpdateOneRequiredWithoutDisputesNestedInput;
+    users_disputes_filed_byTousers?: Prisma.usersUpdateOneRequiredWithoutDisputes_disputes_filed_byTousersNestedInput;
+};
+export type disputesUncheckedUpdateWithoutApartmentsInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    booking_id?: Prisma.StringFieldUpdateOperationsInput | string;
+    filed_by?: Prisma.StringFieldUpdateOperationsInput | string;
+    against_user_id?: Prisma.StringFieldUpdateOperationsInput | string;
+    subject?: Prisma.StringFieldUpdateOperationsInput | string;
+    description?: Prisma.StringFieldUpdateOperationsInput | string;
+    evidence_urls?: Prisma.disputesUpdateevidence_urlsInput | string[];
+    status?: Prisma.Enumdispute_statusFieldUpdateOperationsInput | $Enums.dispute_status;
+    assigned_to?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resolution?: Prisma.NullableEnumdispute_resolutionFieldUpdateOperationsInput | $Enums.dispute_resolution | null;
+    resolution_notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    dispute_messages?: Prisma.dispute_messagesUncheckedUpdateManyWithoutDisputesNestedInput;
+};
+export type disputesUncheckedUpdateManyWithoutApartmentsInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    booking_id?: Prisma.StringFieldUpdateOperationsInput | string;
+    filed_by?: Prisma.StringFieldUpdateOperationsInput | string;
+    against_user_id?: Prisma.StringFieldUpdateOperationsInput | string;
+    subject?: Prisma.StringFieldUpdateOperationsInput | string;
+    description?: Prisma.StringFieldUpdateOperationsInput | string;
+    evidence_urls?: Prisma.disputesUpdateevidence_urlsInput | string[];
+    status?: Prisma.Enumdispute_statusFieldUpdateOperationsInput | $Enums.dispute_status;
+    assigned_to?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resolution?: Prisma.NullableEnumdispute_resolutionFieldUpdateOperationsInput | $Enums.dispute_resolution | null;
+    resolution_notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+};
+export type disputesCreateManyBookingsInput = {
+    id?: string;
+    filed_by: string;
+    against_user_id: string;
+    apartment_id: string;
+    subject: string;
+    description: string;
+    evidence_urls?: Prisma.disputesCreateevidence_urlsInput | string[];
+    status?: $Enums.dispute_status;
+    assigned_to?: string | null;
+    resolution?: $Enums.dispute_resolution | null;
+    resolution_notes?: string | null;
+    resolved_at?: Date | string | null;
+    created_at?: Date | string;
+    updated_at?: Date | string;
+};
+export type disputesUpdateWithoutBookingsInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    subject?: Prisma.StringFieldUpdateOperationsInput | string;
+    description?: Prisma.StringFieldUpdateOperationsInput | string;
+    evidence_urls?: Prisma.disputesUpdateevidence_urlsInput | string[];
+    status?: Prisma.Enumdispute_statusFieldUpdateOperationsInput | $Enums.dispute_status;
+    resolution?: Prisma.NullableEnumdispute_resolutionFieldUpdateOperationsInput | $Enums.dispute_resolution | null;
+    resolution_notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    dispute_messages?: Prisma.dispute_messagesUpdateManyWithoutDisputesNestedInput;
+    users_disputes_against_user_idTousers?: Prisma.usersUpdateOneRequiredWithoutDisputes_disputes_against_user_idTousersNestedInput;
+    apartments?: Prisma.apartmentsUpdateOneRequiredWithoutDisputesNestedInput;
+    users_disputes_assigned_toTousers?: Prisma.usersUpdateOneWithoutDisputes_disputes_assigned_toTousersNestedInput;
+    users_disputes_filed_byTousers?: Prisma.usersUpdateOneRequiredWithoutDisputes_disputes_filed_byTousersNestedInput;
+};
+export type disputesUncheckedUpdateWithoutBookingsInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    filed_by?: Prisma.StringFieldUpdateOperationsInput | string;
+    against_user_id?: Prisma.StringFieldUpdateOperationsInput | string;
+    apartment_id?: Prisma.StringFieldUpdateOperationsInput | string;
+    subject?: Prisma.StringFieldUpdateOperationsInput | string;
+    description?: Prisma.StringFieldUpdateOperationsInput | string;
+    evidence_urls?: Prisma.disputesUpdateevidence_urlsInput | string[];
+    status?: Prisma.Enumdispute_statusFieldUpdateOperationsInput | $Enums.dispute_status;
+    assigned_to?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resolution?: Prisma.NullableEnumdispute_resolutionFieldUpdateOperationsInput | $Enums.dispute_resolution | null;
+    resolution_notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    dispute_messages?: Prisma.dispute_messagesUncheckedUpdateManyWithoutDisputesNestedInput;
+};
+export type disputesUncheckedUpdateManyWithoutBookingsInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    filed_by?: Prisma.StringFieldUpdateOperationsInput | string;
+    against_user_id?: Prisma.StringFieldUpdateOperationsInput | string;
+    apartment_id?: Prisma.StringFieldUpdateOperationsInput | string;
+    subject?: Prisma.StringFieldUpdateOperationsInput | string;
+    description?: Prisma.StringFieldUpdateOperationsInput | string;
+    evidence_urls?: Prisma.disputesUpdateevidence_urlsInput | string[];
+    status?: Prisma.Enumdispute_statusFieldUpdateOperationsInput | $Enums.dispute_status;
+    assigned_to?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resolution?: Prisma.NullableEnumdispute_resolutionFieldUpdateOperationsInput | $Enums.dispute_resolution | null;
+    resolution_notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+};
+export type disputesCreateManyUsers_disputes_against_user_idTousersInput = {
+    id?: string;
+    booking_id: string;
+    filed_by: string;
+    apartment_id: string;
+    subject: string;
+    description: string;
+    evidence_urls?: Prisma.disputesCreateevidence_urlsInput | string[];
+    status?: $Enums.dispute_status;
+    assigned_to?: string | null;
+    resolution?: $Enums.dispute_resolution | null;
+    resolution_notes?: string | null;
+    resolved_at?: Date | string | null;
+    created_at?: Date | string;
+    updated_at?: Date | string;
+};
+export type disputesCreateManyUsers_disputes_assigned_toTousersInput = {
+    id?: string;
+    booking_id: string;
+    filed_by: string;
+    against_user_id: string;
+    apartment_id: string;
+    subject: string;
+    description: string;
+    evidence_urls?: Prisma.disputesCreateevidence_urlsInput | string[];
+    status?: $Enums.dispute_status;
+    resolution?: $Enums.dispute_resolution | null;
+    resolution_notes?: string | null;
+    resolved_at?: Date | string | null;
+    created_at?: Date | string;
+    updated_at?: Date | string;
+};
+export type disputesCreateManyUsers_disputes_filed_byTousersInput = {
+    id?: string;
+    booking_id: string;
+    against_user_id: string;
+    apartment_id: string;
+    subject: string;
+    description: string;
+    evidence_urls?: Prisma.disputesCreateevidence_urlsInput | string[];
+    status?: $Enums.dispute_status;
+    assigned_to?: string | null;
+    resolution?: $Enums.dispute_resolution | null;
+    resolution_notes?: string | null;
+    resolved_at?: Date | string | null;
+    created_at?: Date | string;
+    updated_at?: Date | string;
+};
+export type disputesUpdateWithoutUsers_disputes_against_user_idTousersInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    subject?: Prisma.StringFieldUpdateOperationsInput | string;
+    description?: Prisma.StringFieldUpdateOperationsInput | string;
+    evidence_urls?: Prisma.disputesUpdateevidence_urlsInput | string[];
+    status?: Prisma.Enumdispute_statusFieldUpdateOperationsInput | $Enums.dispute_status;
+    resolution?: Prisma.NullableEnumdispute_resolutionFieldUpdateOperationsInput | $Enums.dispute_resolution | null;
+    resolution_notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    dispute_messages?: Prisma.dispute_messagesUpdateManyWithoutDisputesNestedInput;
+    apartments?: Prisma.apartmentsUpdateOneRequiredWithoutDisputesNestedInput;
+    users_disputes_assigned_toTousers?: Prisma.usersUpdateOneWithoutDisputes_disputes_assigned_toTousersNestedInput;
+    bookings?: Prisma.bookingsUpdateOneRequiredWithoutDisputesNestedInput;
+    users_disputes_filed_byTousers?: Prisma.usersUpdateOneRequiredWithoutDisputes_disputes_filed_byTousersNestedInput;
+};
+export type disputesUncheckedUpdateWithoutUsers_disputes_against_user_idTousersInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    booking_id?: Prisma.StringFieldUpdateOperationsInput | string;
+    filed_by?: Prisma.StringFieldUpdateOperationsInput | string;
+    apartment_id?: Prisma.StringFieldUpdateOperationsInput | string;
+    subject?: Prisma.StringFieldUpdateOperationsInput | string;
+    description?: Prisma.StringFieldUpdateOperationsInput | string;
+    evidence_urls?: Prisma.disputesUpdateevidence_urlsInput | string[];
+    status?: Prisma.Enumdispute_statusFieldUpdateOperationsInput | $Enums.dispute_status;
+    assigned_to?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resolution?: Prisma.NullableEnumdispute_resolutionFieldUpdateOperationsInput | $Enums.dispute_resolution | null;
+    resolution_notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    dispute_messages?: Prisma.dispute_messagesUncheckedUpdateManyWithoutDisputesNestedInput;
+};
+export type disputesUncheckedUpdateManyWithoutUsers_disputes_against_user_idTousersInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    booking_id?: Prisma.StringFieldUpdateOperationsInput | string;
+    filed_by?: Prisma.StringFieldUpdateOperationsInput | string;
+    apartment_id?: Prisma.StringFieldUpdateOperationsInput | string;
+    subject?: Prisma.StringFieldUpdateOperationsInput | string;
+    description?: Prisma.StringFieldUpdateOperationsInput | string;
+    evidence_urls?: Prisma.disputesUpdateevidence_urlsInput | string[];
+    status?: Prisma.Enumdispute_statusFieldUpdateOperationsInput | $Enums.dispute_status;
+    assigned_to?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resolution?: Prisma.NullableEnumdispute_resolutionFieldUpdateOperationsInput | $Enums.dispute_resolution | null;
+    resolution_notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+};
+export type disputesUpdateWithoutUsers_disputes_assigned_toTousersInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    subject?: Prisma.StringFieldUpdateOperationsInput | string;
+    description?: Prisma.StringFieldUpdateOperationsInput | string;
+    evidence_urls?: Prisma.disputesUpdateevidence_urlsInput | string[];
+    status?: Prisma.Enumdispute_statusFieldUpdateOperationsInput | $Enums.dispute_status;
+    resolution?: Prisma.NullableEnumdispute_resolutionFieldUpdateOperationsInput | $Enums.dispute_resolution | null;
+    resolution_notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    dispute_messages?: Prisma.dispute_messagesUpdateManyWithoutDisputesNestedInput;
+    users_disputes_against_user_idTousers?: Prisma.usersUpdateOneRequiredWithoutDisputes_disputes_against_user_idTousersNestedInput;
+    apartments?: Prisma.apartmentsUpdateOneRequiredWithoutDisputesNestedInput;
+    bookings?: Prisma.bookingsUpdateOneRequiredWithoutDisputesNestedInput;
+    users_disputes_filed_byTousers?: Prisma.usersUpdateOneRequiredWithoutDisputes_disputes_filed_byTousersNestedInput;
+};
+export type disputesUncheckedUpdateWithoutUsers_disputes_assigned_toTousersInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    booking_id?: Prisma.StringFieldUpdateOperationsInput | string;
+    filed_by?: Prisma.StringFieldUpdateOperationsInput | string;
+    against_user_id?: Prisma.StringFieldUpdateOperationsInput | string;
+    apartment_id?: Prisma.StringFieldUpdateOperationsInput | string;
+    subject?: Prisma.StringFieldUpdateOperationsInput | string;
+    description?: Prisma.StringFieldUpdateOperationsInput | string;
+    evidence_urls?: Prisma.disputesUpdateevidence_urlsInput | string[];
+    status?: Prisma.Enumdispute_statusFieldUpdateOperationsInput | $Enums.dispute_status;
+    resolution?: Prisma.NullableEnumdispute_resolutionFieldUpdateOperationsInput | $Enums.dispute_resolution | null;
+    resolution_notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    dispute_messages?: Prisma.dispute_messagesUncheckedUpdateManyWithoutDisputesNestedInput;
+};
+export type disputesUncheckedUpdateManyWithoutUsers_disputes_assigned_toTousersInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    booking_id?: Prisma.StringFieldUpdateOperationsInput | string;
+    filed_by?: Prisma.StringFieldUpdateOperationsInput | string;
+    against_user_id?: Prisma.StringFieldUpdateOperationsInput | string;
+    apartment_id?: Prisma.StringFieldUpdateOperationsInput | string;
+    subject?: Prisma.StringFieldUpdateOperationsInput | string;
+    description?: Prisma.StringFieldUpdateOperationsInput | string;
+    evidence_urls?: Prisma.disputesUpdateevidence_urlsInput | string[];
+    status?: Prisma.Enumdispute_statusFieldUpdateOperationsInput | $Enums.dispute_status;
+    resolution?: Prisma.NullableEnumdispute_resolutionFieldUpdateOperationsInput | $Enums.dispute_resolution | null;
+    resolution_notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+};
+export type disputesUpdateWithoutUsers_disputes_filed_byTousersInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    subject?: Prisma.StringFieldUpdateOperationsInput | string;
+    description?: Prisma.StringFieldUpdateOperationsInput | string;
+    evidence_urls?: Prisma.disputesUpdateevidence_urlsInput | string[];
+    status?: Prisma.Enumdispute_statusFieldUpdateOperationsInput | $Enums.dispute_status;
+    resolution?: Prisma.NullableEnumdispute_resolutionFieldUpdateOperationsInput | $Enums.dispute_resolution | null;
+    resolution_notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    dispute_messages?: Prisma.dispute_messagesUpdateManyWithoutDisputesNestedInput;
+    users_disputes_against_user_idTousers?: Prisma.usersUpdateOneRequiredWithoutDisputes_disputes_against_user_idTousersNestedInput;
+    apartments?: Prisma.apartmentsUpdateOneRequiredWithoutDisputesNestedInput;
+    users_disputes_assigned_toTousers?: Prisma.usersUpdateOneWithoutDisputes_disputes_assigned_toTousersNestedInput;
+    bookings?: Prisma.bookingsUpdateOneRequiredWithoutDisputesNestedInput;
+};
+export type disputesUncheckedUpdateWithoutUsers_disputes_filed_byTousersInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    booking_id?: Prisma.StringFieldUpdateOperationsInput | string;
+    against_user_id?: Prisma.StringFieldUpdateOperationsInput | string;
+    apartment_id?: Prisma.StringFieldUpdateOperationsInput | string;
+    subject?: Prisma.StringFieldUpdateOperationsInput | string;
+    description?: Prisma.StringFieldUpdateOperationsInput | string;
+    evidence_urls?: Prisma.disputesUpdateevidence_urlsInput | string[];
+    status?: Prisma.Enumdispute_statusFieldUpdateOperationsInput | $Enums.dispute_status;
+    assigned_to?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resolution?: Prisma.NullableEnumdispute_resolutionFieldUpdateOperationsInput | $Enums.dispute_resolution | null;
+    resolution_notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    dispute_messages?: Prisma.dispute_messagesUncheckedUpdateManyWithoutDisputesNestedInput;
+};
+export type disputesUncheckedUpdateManyWithoutUsers_disputes_filed_byTousersInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    booking_id?: Prisma.StringFieldUpdateOperationsInput | string;
+    against_user_id?: Prisma.StringFieldUpdateOperationsInput | string;
+    apartment_id?: Prisma.StringFieldUpdateOperationsInput | string;
+    subject?: Prisma.StringFieldUpdateOperationsInput | string;
+    description?: Prisma.StringFieldUpdateOperationsInput | string;
+    evidence_urls?: Prisma.disputesUpdateevidence_urlsInput | string[];
+    status?: Prisma.Enumdispute_statusFieldUpdateOperationsInput | $Enums.dispute_status;
+    assigned_to?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resolution?: Prisma.NullableEnumdispute_resolutionFieldUpdateOperationsInput | $Enums.dispute_resolution | null;
+    resolution_notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+};
+export type DisputesCountOutputType = {
+    dispute_messages: number;
+};
+export type DisputesCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    dispute_messages?: boolean | DisputesCountOutputTypeCountDispute_messagesArgs;
+};
+export type DisputesCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    select?: Prisma.DisputesCountOutputTypeSelect<ExtArgs> | null;
+};
+export type DisputesCountOutputTypeCountDispute_messagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.dispute_messagesWhereInput;
+};
+export type disputesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+    id?: boolean;
+    booking_id?: boolean;
+    filed_by?: boolean;
+    against_user_id?: boolean;
+    apartment_id?: boolean;
+    subject?: boolean;
+    description?: boolean;
+    evidence_urls?: boolean;
+    status?: boolean;
+    assigned_to?: boolean;
+    resolution?: boolean;
+    resolution_notes?: boolean;
+    resolved_at?: boolean;
+    created_at?: boolean;
+    updated_at?: boolean;
+    dispute_messages?: boolean | Prisma.disputes$dispute_messagesArgs<ExtArgs>;
+    users_disputes_against_user_idTousers?: boolean | Prisma.usersDefaultArgs<ExtArgs>;
+    apartments?: boolean | Prisma.apartmentsDefaultArgs<ExtArgs>;
+    users_disputes_assigned_toTousers?: boolean | Prisma.disputes$users_disputes_assigned_toTousersArgs<ExtArgs>;
+    bookings?: boolean | Prisma.bookingsDefaultArgs<ExtArgs>;
+    users_disputes_filed_byTousers?: boolean | Prisma.usersDefaultArgs<ExtArgs>;
+    _count?: boolean | Prisma.DisputesCountOutputTypeDefaultArgs<ExtArgs>;
+}, ExtArgs["result"]["disputes"]>;
+export type disputesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+    id?: boolean;
+    booking_id?: boolean;
+    filed_by?: boolean;
+    against_user_id?: boolean;
+    apartment_id?: boolean;
+    subject?: boolean;
+    description?: boolean;
+    evidence_urls?: boolean;
+    status?: boolean;
+    assigned_to?: boolean;
+    resolution?: boolean;
+    resolution_notes?: boolean;
+    resolved_at?: boolean;
+    created_at?: boolean;
+    updated_at?: boolean;
+    users_disputes_against_user_idTousers?: boolean | Prisma.usersDefaultArgs<ExtArgs>;
+    apartments?: boolean | Prisma.apartmentsDefaultArgs<ExtArgs>;
+    users_disputes_assigned_toTousers?: boolean | Prisma.disputes$users_disputes_assigned_toTousersArgs<ExtArgs>;
+    bookings?: boolean | Prisma.bookingsDefaultArgs<ExtArgs>;
+    users_disputes_filed_byTousers?: boolean | Prisma.usersDefaultArgs<ExtArgs>;
+}, ExtArgs["result"]["disputes"]>;
+export type disputesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+    id?: boolean;
+    booking_id?: boolean;
+    filed_by?: boolean;
+    against_user_id?: boolean;
+    apartment_id?: boolean;
+    subject?: boolean;
+    description?: boolean;
+    evidence_urls?: boolean;
+    status?: boolean;
+    assigned_to?: boolean;
+    resolution?: boolean;
+    resolution_notes?: boolean;
+    resolved_at?: boolean;
+    created_at?: boolean;
+    updated_at?: boolean;
+    users_disputes_against_user_idTousers?: boolean | Prisma.usersDefaultArgs<ExtArgs>;
+    apartments?: boolean | Prisma.apartmentsDefaultArgs<ExtArgs>;
+    users_disputes_assigned_toTousers?: boolean | Prisma.disputes$users_disputes_assigned_toTousersArgs<ExtArgs>;
+    bookings?: boolean | Prisma.bookingsDefaultArgs<ExtArgs>;
+    users_disputes_filed_byTousers?: boolean | Prisma.usersDefaultArgs<ExtArgs>;
+}, ExtArgs["result"]["disputes"]>;
+export type disputesSelectScalar = {
+    id?: boolean;
+    booking_id?: boolean;
+    filed_by?: boolean;
+    against_user_id?: boolean;
+    apartment_id?: boolean;
+    subject?: boolean;
+    description?: boolean;
+    evidence_urls?: boolean;
+    status?: boolean;
+    assigned_to?: boolean;
+    resolution?: boolean;
+    resolution_notes?: boolean;
+    resolved_at?: boolean;
+    created_at?: boolean;
+    updated_at?: boolean;
+};
+export type disputesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "booking_id" | "filed_by" | "against_user_id" | "apartment_id" | "subject" | "description" | "evidence_urls" | "status" | "assigned_to" | "resolution" | "resolution_notes" | "resolved_at" | "created_at" | "updated_at", ExtArgs["result"]["disputes"]>;
+export type disputesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    dispute_messages?: boolean | Prisma.disputes$dispute_messagesArgs<ExtArgs>;
+    users_disputes_against_user_idTousers?: boolean | Prisma.usersDefaultArgs<ExtArgs>;
+    apartments?: boolean | Prisma.apartmentsDefaultArgs<ExtArgs>;
+    users_disputes_assigned_toTousers?: boolean | Prisma.disputes$users_disputes_assigned_toTousersArgs<ExtArgs>;
+    bookings?: boolean | Prisma.bookingsDefaultArgs<ExtArgs>;
+    users_disputes_filed_byTousers?: boolean | Prisma.usersDefaultArgs<ExtArgs>;
+    _count?: boolean | Prisma.DisputesCountOutputTypeDefaultArgs<ExtArgs>;
+};
+export type disputesIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    users_disputes_against_user_idTousers?: boolean | Prisma.usersDefaultArgs<ExtArgs>;
+    apartments?: boolean | Prisma.apartmentsDefaultArgs<ExtArgs>;
+    users_disputes_assigned_toTousers?: boolean | Prisma.disputes$users_disputes_assigned_toTousersArgs<ExtArgs>;
+    bookings?: boolean | Prisma.bookingsDefaultArgs<ExtArgs>;
+    users_disputes_filed_byTousers?: boolean | Prisma.usersDefaultArgs<ExtArgs>;
+};
+export type disputesIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    users_disputes_against_user_idTousers?: boolean | Prisma.usersDefaultArgs<ExtArgs>;
+    apartments?: boolean | Prisma.apartmentsDefaultArgs<ExtArgs>;
+    users_disputes_assigned_toTousers?: boolean | Prisma.disputes$users_disputes_assigned_toTousersArgs<ExtArgs>;
+    bookings?: boolean | Prisma.bookingsDefaultArgs<ExtArgs>;
+    users_disputes_filed_byTousers?: boolean | Prisma.usersDefaultArgs<ExtArgs>;
+};
+export type $disputesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    name: "disputes";
+    objects: {
+        dispute_messages: Prisma.$dispute_messagesPayload<ExtArgs>[];
+        users_disputes_against_user_idTousers: Prisma.$usersPayload<ExtArgs>;
+        apartments: Prisma.$apartmentsPayload<ExtArgs>;
+        users_disputes_assigned_toTousers: Prisma.$usersPayload<ExtArgs> | null;
+        bookings: Prisma.$bookingsPayload<ExtArgs>;
+        users_disputes_filed_byTousers: Prisma.$usersPayload<ExtArgs>;
+    };
+    scalars: runtime.Types.Extensions.GetPayloadResult<{
+        id: string;
+        booking_id: string;
+        filed_by: string;
+        against_user_id: string;
+        apartment_id: string;
+        subject: string;
+        description: string;
+        evidence_urls: string[];
+        status: $Enums.dispute_status;
+        assigned_to: string | null;
+        resolution: $Enums.dispute_resolution | null;
+        resolution_notes: string | null;
+        resolved_at: Date | null;
+        created_at: Date;
+        updated_at: Date;
+    }, ExtArgs["result"]["disputes"]>;
+    composites: {};
+};
+export type disputesGetPayload<S extends boolean | null | undefined | disputesDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$disputesPayload, S>;
+export type disputesCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = Omit<disputesFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+    select?: DisputesCountAggregateInputType | true;
+};
+export interface disputesDelegate<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: {
+        types: Prisma.TypeMap<ExtArgs>['model']['disputes'];
+        meta: {
+            name: 'disputes';
+        };
+    };
+    findUnique<T extends disputesFindUniqueArgs>(args: Prisma.SelectSubset<T, disputesFindUniqueArgs<ExtArgs>>): Prisma.Prisma__disputesClient<runtime.Types.Result.GetResult<Prisma.$disputesPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>;
+    findUniqueOrThrow<T extends disputesFindUniqueOrThrowArgs>(args: Prisma.SelectSubset<T, disputesFindUniqueOrThrowArgs<ExtArgs>>): Prisma.Prisma__disputesClient<runtime.Types.Result.GetResult<Prisma.$disputesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>;
+    findFirst<T extends disputesFindFirstArgs>(args?: Prisma.SelectSubset<T, disputesFindFirstArgs<ExtArgs>>): Prisma.Prisma__disputesClient<runtime.Types.Result.GetResult<Prisma.$disputesPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>;
+    findFirstOrThrow<T extends disputesFindFirstOrThrowArgs>(args?: Prisma.SelectSubset<T, disputesFindFirstOrThrowArgs<ExtArgs>>): Prisma.Prisma__disputesClient<runtime.Types.Result.GetResult<Prisma.$disputesPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>;
+    findMany<T extends disputesFindManyArgs>(args?: Prisma.SelectSubset<T, disputesFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$disputesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>;
+    create<T extends disputesCreateArgs>(args: Prisma.SelectSubset<T, disputesCreateArgs<ExtArgs>>): Prisma.Prisma__disputesClient<runtime.Types.Result.GetResult<Prisma.$disputesPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>;
+    createMany<T extends disputesCreateManyArgs>(args?: Prisma.SelectSubset<T, disputesCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>;
+    createManyAndReturn<T extends disputesCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, disputesCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$disputesPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>;
+    delete<T extends disputesDeleteArgs>(args: Prisma.SelectSubset<T, disputesDeleteArgs<ExtArgs>>): Prisma.Prisma__disputesClient<runtime.Types.Result.GetResult<Prisma.$disputesPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>;
+    update<T extends disputesUpdateArgs>(args: Prisma.SelectSubset<T, disputesUpdateArgs<ExtArgs>>): Prisma.Prisma__disputesClient<runtime.Types.Result.GetResult<Prisma.$disputesPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>;
+    deleteMany<T extends disputesDeleteManyArgs>(args?: Prisma.SelectSubset<T, disputesDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>;
+    updateMany<T extends disputesUpdateManyArgs>(args: Prisma.SelectSubset<T, disputesUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>;
+    updateManyAndReturn<T extends disputesUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, disputesUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$disputesPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>;
+    upsert<T extends disputesUpsertArgs>(args: Prisma.SelectSubset<T, disputesUpsertArgs<ExtArgs>>): Prisma.Prisma__disputesClient<runtime.Types.Result.GetResult<Prisma.$disputesPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>;
+    count<T extends disputesCountArgs>(args?: Prisma.Subset<T, disputesCountArgs>): Prisma.PrismaPromise<T extends runtime.Types.Utils.Record<'select', any> ? T['select'] extends true ? number : Prisma.GetScalarType<T['select'], DisputesCountAggregateOutputType> : number>;
+    aggregate<T extends DisputesAggregateArgs>(args: Prisma.Subset<T, DisputesAggregateArgs>): Prisma.PrismaPromise<GetDisputesAggregateType<T>>;
+    groupBy<T extends disputesGroupByArgs, HasSelectOrTake extends Prisma.Or<Prisma.Extends<'skip', Prisma.Keys<T>>, Prisma.Extends<'take', Prisma.Keys<T>>>, OrderByArg extends Prisma.True extends HasSelectOrTake ? {
+        orderBy: disputesGroupByArgs['orderBy'];
+    } : {
+        orderBy?: disputesGroupByArgs['orderBy'];
+    }, OrderFields extends Prisma.ExcludeUnderscoreKeys<Prisma.Keys<Prisma.MaybeTupleToUnion<T['orderBy']>>>, ByFields extends Prisma.MaybeTupleToUnion<T['by']>, ByValid extends Prisma.Has<ByFields, OrderFields>, HavingFields extends Prisma.GetHavingFields<T['having']>, HavingValid extends Prisma.Has<ByFields, HavingFields>, ByEmpty extends T['by'] extends never[] ? Prisma.True : Prisma.False, InputErrors extends ByEmpty extends Prisma.True ? `Error: "by" must not be empty.` : HavingValid extends Prisma.False ? {
+        [P in HavingFields]: P extends ByFields ? never : P extends string ? `Error: Field "${P}" used in "having" needs to be provided in "by".` : [
+            Error,
+            'Field ',
+            P,
+            ` in "having" needs to be provided in "by"`
+        ];
+    }[HavingFields] : 'take' extends Prisma.Keys<T> ? 'orderBy' extends Prisma.Keys<T> ? ByValid extends Prisma.True ? {} : {
+        [P in OrderFields]: P extends ByFields ? never : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+    }[OrderFields] : 'Error: If you provide "take", you also need to provide "orderBy"' : 'skip' extends Prisma.Keys<T> ? 'orderBy' extends Prisma.Keys<T> ? ByValid extends Prisma.True ? {} : {
+        [P in OrderFields]: P extends ByFields ? never : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+    }[OrderFields] : 'Error: If you provide "skip", you also need to provide "orderBy"' : ByValid extends Prisma.True ? {} : {
+        [P in OrderFields]: P extends ByFields ? never : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+    }[OrderFields]>(args: Prisma.SubsetIntersection<T, disputesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDisputesGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>;
+    readonly fields: disputesFieldRefs;
+}
+export interface Prisma__disputesClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise";
+    dispute_messages<T extends Prisma.disputes$dispute_messagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.disputes$dispute_messagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$dispute_messagesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
+    users_disputes_against_user_idTousers<T extends Prisma.usersDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.usersDefaultArgs<ExtArgs>>): Prisma.Prisma__usersClient<runtime.Types.Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>;
+    apartments<T extends Prisma.apartmentsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.apartmentsDefaultArgs<ExtArgs>>): Prisma.Prisma__apartmentsClient<runtime.Types.Result.GetResult<Prisma.$apartmentsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>;
+    users_disputes_assigned_toTousers<T extends Prisma.disputes$users_disputes_assigned_toTousersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.disputes$users_disputes_assigned_toTousersArgs<ExtArgs>>): Prisma.Prisma__usersClient<runtime.Types.Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>;
+    bookings<T extends Prisma.bookingsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.bookingsDefaultArgs<ExtArgs>>): Prisma.Prisma__bookingsClient<runtime.Types.Result.GetResult<Prisma.$bookingsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>;
+    users_disputes_filed_byTousers<T extends Prisma.usersDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.usersDefaultArgs<ExtArgs>>): Prisma.Prisma__usersClient<runtime.Types.Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>;
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): runtime.Types.Utils.JsPromise<TResult1 | TResult2>;
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): runtime.Types.Utils.JsPromise<T | TResult>;
+    finally(onfinally?: (() => void) | undefined | null): runtime.Types.Utils.JsPromise<T>;
+}
+export interface disputesFieldRefs {
+    readonly id: Prisma.FieldRef<"disputes", 'String'>;
+    readonly booking_id: Prisma.FieldRef<"disputes", 'String'>;
+    readonly filed_by: Prisma.FieldRef<"disputes", 'String'>;
+    readonly against_user_id: Prisma.FieldRef<"disputes", 'String'>;
+    readonly apartment_id: Prisma.FieldRef<"disputes", 'String'>;
+    readonly subject: Prisma.FieldRef<"disputes", 'String'>;
+    readonly description: Prisma.FieldRef<"disputes", 'String'>;
+    readonly evidence_urls: Prisma.FieldRef<"disputes", 'String[]'>;
+    readonly status: Prisma.FieldRef<"disputes", 'dispute_status'>;
+    readonly assigned_to: Prisma.FieldRef<"disputes", 'String'>;
+    readonly resolution: Prisma.FieldRef<"disputes", 'dispute_resolution'>;
+    readonly resolution_notes: Prisma.FieldRef<"disputes", 'String'>;
+    readonly resolved_at: Prisma.FieldRef<"disputes", 'DateTime'>;
+    readonly created_at: Prisma.FieldRef<"disputes", 'DateTime'>;
+    readonly updated_at: Prisma.FieldRef<"disputes", 'DateTime'>;
+}
+export type disputesFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    select?: Prisma.disputesSelect<ExtArgs> | null;
+    omit?: Prisma.disputesOmit<ExtArgs> | null;
+    include?: Prisma.disputesInclude<ExtArgs> | null;
+    where: Prisma.disputesWhereUniqueInput;
+};
+export type disputesFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    select?: Prisma.disputesSelect<ExtArgs> | null;
+    omit?: Prisma.disputesOmit<ExtArgs> | null;
+    include?: Prisma.disputesInclude<ExtArgs> | null;
+    where: Prisma.disputesWhereUniqueInput;
+};
+export type disputesFindFirstArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    select?: Prisma.disputesSelect<ExtArgs> | null;
+    omit?: Prisma.disputesOmit<ExtArgs> | null;
+    include?: Prisma.disputesInclude<ExtArgs> | null;
+    where?: Prisma.disputesWhereInput;
+    orderBy?: Prisma.disputesOrderByWithRelationInput | Prisma.disputesOrderByWithRelationInput[];
+    cursor?: Prisma.disputesWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: Prisma.DisputesScalarFieldEnum | Prisma.DisputesScalarFieldEnum[];
+};
+export type disputesFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    select?: Prisma.disputesSelect<ExtArgs> | null;
+    omit?: Prisma.disputesOmit<ExtArgs> | null;
+    include?: Prisma.disputesInclude<ExtArgs> | null;
+    where?: Prisma.disputesWhereInput;
+    orderBy?: Prisma.disputesOrderByWithRelationInput | Prisma.disputesOrderByWithRelationInput[];
+    cursor?: Prisma.disputesWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: Prisma.DisputesScalarFieldEnum | Prisma.DisputesScalarFieldEnum[];
+};
+export type disputesFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    select?: Prisma.disputesSelect<ExtArgs> | null;
+    omit?: Prisma.disputesOmit<ExtArgs> | null;
+    include?: Prisma.disputesInclude<ExtArgs> | null;
+    where?: Prisma.disputesWhereInput;
+    orderBy?: Prisma.disputesOrderByWithRelationInput | Prisma.disputesOrderByWithRelationInput[];
+    cursor?: Prisma.disputesWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: Prisma.DisputesScalarFieldEnum | Prisma.DisputesScalarFieldEnum[];
+};
+export type disputesCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    select?: Prisma.disputesSelect<ExtArgs> | null;
+    omit?: Prisma.disputesOmit<ExtArgs> | null;
+    include?: Prisma.disputesInclude<ExtArgs> | null;
+    data: Prisma.XOR<Prisma.disputesCreateInput, Prisma.disputesUncheckedCreateInput>;
+};
+export type disputesCreateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    data: Prisma.disputesCreateManyInput | Prisma.disputesCreateManyInput[];
+    skipDuplicates?: boolean;
+};
+export type disputesCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    select?: Prisma.disputesSelectCreateManyAndReturn<ExtArgs> | null;
+    omit?: Prisma.disputesOmit<ExtArgs> | null;
+    data: Prisma.disputesCreateManyInput | Prisma.disputesCreateManyInput[];
+    skipDuplicates?: boolean;
+    include?: Prisma.disputesIncludeCreateManyAndReturn<ExtArgs> | null;
+};
+export type disputesUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    select?: Prisma.disputesSelect<ExtArgs> | null;
+    omit?: Prisma.disputesOmit<ExtArgs> | null;
+    include?: Prisma.disputesInclude<ExtArgs> | null;
+    data: Prisma.XOR<Prisma.disputesUpdateInput, Prisma.disputesUncheckedUpdateInput>;
+    where: Prisma.disputesWhereUniqueInput;
+};
+export type disputesUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    data: Prisma.XOR<Prisma.disputesUpdateManyMutationInput, Prisma.disputesUncheckedUpdateManyInput>;
+    where?: Prisma.disputesWhereInput;
+    limit?: number;
+};
+export type disputesUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    select?: Prisma.disputesSelectUpdateManyAndReturn<ExtArgs> | null;
+    omit?: Prisma.disputesOmit<ExtArgs> | null;
+    data: Prisma.XOR<Prisma.disputesUpdateManyMutationInput, Prisma.disputesUncheckedUpdateManyInput>;
+    where?: Prisma.disputesWhereInput;
+    limit?: number;
+    include?: Prisma.disputesIncludeUpdateManyAndReturn<ExtArgs> | null;
+};
+export type disputesUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    select?: Prisma.disputesSelect<ExtArgs> | null;
+    omit?: Prisma.disputesOmit<ExtArgs> | null;
+    include?: Prisma.disputesInclude<ExtArgs> | null;
+    where: Prisma.disputesWhereUniqueInput;
+    create: Prisma.XOR<Prisma.disputesCreateInput, Prisma.disputesUncheckedCreateInput>;
+    update: Prisma.XOR<Prisma.disputesUpdateInput, Prisma.disputesUncheckedUpdateInput>;
+};
+export type disputesDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    select?: Prisma.disputesSelect<ExtArgs> | null;
+    omit?: Prisma.disputesOmit<ExtArgs> | null;
+    include?: Prisma.disputesInclude<ExtArgs> | null;
+    where: Prisma.disputesWhereUniqueInput;
+};
+export type disputesDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.disputesWhereInput;
+    limit?: number;
+};
+export type disputes$dispute_messagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    select?: Prisma.dispute_messagesSelect<ExtArgs> | null;
+    omit?: Prisma.dispute_messagesOmit<ExtArgs> | null;
+    include?: Prisma.dispute_messagesInclude<ExtArgs> | null;
+    where?: Prisma.dispute_messagesWhereInput;
+    orderBy?: Prisma.dispute_messagesOrderByWithRelationInput | Prisma.dispute_messagesOrderByWithRelationInput[];
+    cursor?: Prisma.dispute_messagesWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: Prisma.Dispute_messagesScalarFieldEnum | Prisma.Dispute_messagesScalarFieldEnum[];
+};
+export type disputes$users_disputes_assigned_toTousersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    select?: Prisma.usersSelect<ExtArgs> | null;
+    omit?: Prisma.usersOmit<ExtArgs> | null;
+    include?: Prisma.usersInclude<ExtArgs> | null;
+    where?: Prisma.usersWhereInput;
+};
+export type disputesDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    select?: Prisma.disputesSelect<ExtArgs> | null;
+    omit?: Prisma.disputesOmit<ExtArgs> | null;
+    include?: Prisma.disputesInclude<ExtArgs> | null;
+};

@@ -1,0 +1,730 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters", "partialIndexes"]
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model admin_actions {
+  id           String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  admin_id     String            @db.Uuid
+  action_type  admin_action_type
+  target_type  String
+  target_id    String            @db.Uuid
+  notes        String?
+  metadata     Json?
+  apartment_id String?           @db.Uuid
+  created_at   DateTime          @default(now()) @db.Timestamptz(6)
+  users        users             @relation(fields: [admin_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  apartments   apartments?       @relation(fields: [apartment_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([admin_id], map: "idx_admin_actions_admin")
+  @@index([apartment_id], map: "idx_admin_actions_apartment")
+  @@index([created_at(sort: Desc)], map: "idx_admin_actions_created")
+  @@index([target_type, target_id], map: "idx_admin_actions_target")
+  @@index([action_type], map: "idx_admin_actions_type")
+  @@index([action_type, created_at(sort: Desc)], map: "idx_admin_actions_type_recent")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model apartment_invites {
+  id                                        String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  apartment_id                              String        @db.Uuid
+  invited_email                             String
+  token                                     String        @unique
+  token_expires_at                          DateTime      @db.Timestamptz(6)
+  unit_number                               String?
+  status                                    invite_status @default(pending)
+  invited_by                                String?       @db.Uuid
+  used_by                                   String?       @db.Uuid
+  notes                                     String?
+  created_at                                DateTime      @default(now()) @db.Timestamptz(6)
+  updated_at                                DateTime      @default(now()) @db.Timestamptz(6)
+  apartments                                apartments    @relation(fields: [apartment_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users_apartment_invites_invited_byTousers users?        @relation("apartment_invites_invited_byTousers", fields: [invited_by], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_invite_invited_by")
+  users_apartment_invites_used_byTousers    users?        @relation("apartment_invites_used_byTousers", fields: [used_by], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_invite_used_by")
+  users_users_invite_idToapartment_invites  users[]       @relation("users_invite_idToapartment_invites")
+
+  @@index([apartment_id], map: "idx_apartment_invites_apartment")
+  @@index([invited_email], map: "idx_apartment_invites_email")
+  @@index([status], map: "idx_apartment_invites_status")
+  @@index([token], map: "idx_apartment_invites_token")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model apartments {
+  id                  String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                String
+  address_line1       String
+  address_line2       String?
+  city                String
+  state               String
+  country             String              @default("India")
+  postal_code         String
+  total_units         Int?
+  admin_contact_email String?
+  is_active           Boolean             @default(true)
+  created_at          DateTime            @default(now()) @db.Timestamptz(6)
+  updated_at          DateTime            @default(now()) @db.Timestamptz(6)
+  admin_actions       admin_actions[]
+  apartment_invites   apartment_invites[]
+  disputes            disputes[]
+  listings            listings[]
+  notifications       notifications[]
+  payout_tracking     payout_tracking[]
+  users               users[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model availability_slots {
+  id               String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  listing_id       String       @db.Uuid
+  slot_type        slot_type    @default(one_time)
+  start_datetime   DateTime?    @db.Timestamptz(6)
+  end_datetime     DateTime?    @db.Timestamptz(6)
+  day_of_week      day_of_week?
+  start_time       DateTime?    @db.Time(6)
+  end_time         DateTime?    @db.Time(6)
+  recurrence_start DateTime?    @db.Date
+  recurrence_end   DateTime?    @db.Date
+  timezone         String       @default("Asia/Kolkata")
+  max_capacity     Int          @default(1)
+  notes            String?
+  is_active        Boolean      @default(true)
+  created_at       DateTime     @default(now()) @db.Timestamptz(6)
+  updated_at       DateTime     @default(now()) @db.Timestamptz(6)
+  listings         listings     @relation(fields: [listing_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  bookings         bookings[]
+
+  @@index([listing_id, is_active], map: "idx_availability_slots_active", where: raw("(is_active = true)"))
+  @@index([start_datetime], map: "idx_availability_slots_datetime", where: raw("(slot_type = 'one_time'::slot_type)"))
+  @@index([listing_id], map: "idx_availability_slots_listing")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model bookings {
+  id                                String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  learner_id                        String              @db.Uuid
+  listing_id                        String              @db.Uuid
+  slot_id                           String              @db.Uuid
+  pricing_plan_id                   String              @db.Uuid
+  provider_id                       String              @db.Uuid
+  status                            booking_status      @default(pending)
+  session_start                     DateTime            @db.Timestamptz(6)
+  session_end                       DateTime            @db.Timestamptz(6)
+  cancelled_at                      DateTime?           @db.Timestamptz(6)
+  cancellation_party                cancellation_party?
+  cancellation_reason               String?
+  learner_notes                     String?
+  provider_notes                    String?
+  deleted_at                        DateTime?           @db.Timestamptz(6)
+  created_at                        DateTime            @default(now()) @db.Timestamptz(6)
+  updated_at                        DateTime            @default(now()) @db.Timestamptz(6)
+  users_bookings_learner_idTousers  users               @relation("bookings_learner_idTousers", fields: [learner_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  listings                          listings            @relation(fields: [listing_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  pricing_plans                     pricing_plans       @relation(fields: [pricing_plan_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users_bookings_provider_idTousers users               @relation("bookings_provider_idTousers", fields: [provider_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  availability_slots                availability_slots  @relation(fields: [slot_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  disputes                          disputes[]
+  messages                          messages[]
+  payments                          payments?
+  reviews                           reviews[]
+
+  @@index([deleted_at], map: "idx_bookings_deleted", where: raw("(deleted_at IS NULL)"))
+  @@index([learner_id], map: "idx_bookings_learner")
+  @@index([learner_id, status], map: "idx_bookings_learner_status", where: raw("(deleted_at IS NULL)"))
+  @@index([listing_id], map: "idx_bookings_listing")
+  @@index([created_at], map: "idx_bookings_pending", where: raw("((status = 'pending'::booking_status) AND (deleted_at IS NULL))"))
+  @@index([provider_id], map: "idx_bookings_provider")
+  @@index([provider_id, session_start], map: "idx_bookings_provider_upcoming", where: raw("((status = 'confirmed'::booking_status) AND (deleted_at IS NULL))"))
+  @@index([session_start], map: "idx_bookings_session_start")
+  @@index([slot_id], map: "idx_bookings_slot")
+  @@index([status], map: "idx_bookings_status")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model categories {
+  id               String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  parent_id        String?      @db.Uuid
+  name             String
+  slug             String       @unique(map: "uq_category_slug")
+  description      String?
+  icon_url         String?
+  display_order    Int          @default(0)
+  is_active        Boolean      @default(true)
+  created_at       DateTime     @default(now()) @db.Timestamptz(6)
+  updated_at       DateTime     @default(now()) @db.Timestamptz(6)
+  categories       categories?  @relation("categoriesTocategories", fields: [parent_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  other_categories categories[] @relation("categoriesTocategories")
+  listings         listings[]
+
+  @@index([is_active], map: "idx_categories_active")
+  @@index([parent_id], map: "idx_categories_parent")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model dispute_messages {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  dispute_id  String   @db.Uuid
+  sender_id   String   @db.Uuid
+  body        String
+  is_internal Boolean  @default(false)
+  created_at  DateTime @default(now()) @db.Timestamptz(6)
+  disputes    disputes @relation(fields: [dispute_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users       users    @relation(fields: [sender_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([dispute_id], map: "idx_dispute_messages_dispute")
+  @@index([sender_id], map: "idx_dispute_messages_sender")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model disputes {
+  id                                    String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  booking_id                            String              @db.Uuid
+  filed_by                              String              @db.Uuid
+  against_user_id                       String              @db.Uuid
+  apartment_id                          String              @db.Uuid
+  subject                               String
+  description                           String
+  evidence_urls                         String[]
+  status                                dispute_status      @default(open)
+  assigned_to                           String?             @db.Uuid
+  resolution                            dispute_resolution?
+  resolution_notes                      String?
+  resolved_at                           DateTime?           @db.Timestamptz(6)
+  created_at                            DateTime            @default(now()) @db.Timestamptz(6)
+  updated_at                            DateTime            @default(now()) @db.Timestamptz(6)
+  dispute_messages                      dispute_messages[]
+  users_disputes_against_user_idTousers users               @relation("disputes_against_user_idTousers", fields: [against_user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  apartments                            apartments          @relation(fields: [apartment_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users_disputes_assigned_toTousers     users?              @relation("disputes_assigned_toTousers", fields: [assigned_to], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  bookings                              bookings            @relation(fields: [booking_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users_disputes_filed_byTousers        users               @relation("disputes_filed_byTousers", fields: [filed_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([against_user_id], map: "idx_disputes_against")
+  @@index([apartment_id], map: "idx_disputes_apartment")
+  @@index([assigned_to], map: "idx_disputes_assigned")
+  @@index([booking_id], map: "idx_disputes_booking")
+  @@index([filed_by], map: "idx_disputes_filed_by")
+  @@index([apartment_id, status, created_at], map: "idx_disputes_open_queue", where: raw("(status = ANY (ARRAY['open'::dispute_status, 'under_review'::dispute_status]))"))
+  @@index([status], map: "idx_disputes_status")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model listing_media {
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  listing_id    String   @db.Uuid
+  media_url     String
+  media_type    String   @default("image")
+  display_order Int      @default(0)
+  alt_text      String?
+  created_at    DateTime @default(now()) @db.Timestamptz(6)
+  listings      listings @relation(fields: [listing_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([listing_id], map: "idx_listing_media_listing")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+/// This model contains an expression index which requires additional setup for migrations. Visit https://pris.ly/d/expression-indexes for more info.
+model listings {
+  id                 String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  provider_id        String               @db.Uuid
+  apartment_id       String               @db.Uuid
+  category_id        String               @db.Uuid
+  title              String
+  slug               String               @unique
+  description        String
+  mode               listing_mode         @default(offline)
+  location_details   String?
+  age_group          age_group            @default(all_ages)
+  max_capacity       Int                  @default(1)
+  prerequisites      String?
+  tags               String[]
+  status             listing_status       @default(draft)
+  is_featured        Boolean              @default(false)
+  rejection_reason   String?
+  deleted_at         DateTime?            @db.Timestamptz(6)
+  created_at         DateTime             @default(now()) @db.Timestamptz(6)
+  updated_at         DateTime             @default(now()) @db.Timestamptz(6)
+  availability_slots availability_slots[]
+  bookings           bookings[]
+  listing_media      listing_media[]
+  apartments         apartments           @relation(fields: [apartment_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  categories         categories           @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users              users                @relation(fields: [provider_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  pricing_plans      pricing_plans[]
+  reviews            reviews[]
+
+  @@index([apartment_id], map: "idx_listings_apartment")
+  @@index([category_id], map: "idx_listings_category")
+  @@index([deleted_at], map: "idx_listings_deleted", where: raw("(deleted_at IS NULL)"))
+  @@index([apartment_id, category_id, status], map: "idx_listings_discovery", where: raw("(deleted_at IS NULL)"))
+  @@index([mode], map: "idx_listings_mode")
+  @@index([provider_id], map: "idx_listings_provider")
+  @@index([status], map: "idx_listings_status")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model messages {
+  id                                 String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  booking_id                         String    @db.Uuid
+  sender_id                          String    @db.Uuid
+  recipient_id                       String    @db.Uuid
+  body                               String
+  is_read                            Boolean   @default(false)
+  read_at                            DateTime? @db.Timestamptz(6)
+  deleted_at                         DateTime? @db.Timestamptz(6)
+  created_at                         DateTime  @default(now()) @db.Timestamptz(6)
+  bookings                           bookings  @relation(fields: [booking_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users_messages_recipient_idTousers users     @relation("messages_recipient_idTousers", fields: [recipient_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users_messages_sender_idTousers    users     @relation("messages_sender_idTousers", fields: [sender_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([booking_id], map: "idx_messages_booking")
+  @@index([recipient_id], map: "idx_messages_recipient")
+  @@index([sender_id], map: "idx_messages_sender")
+  @@index([recipient_id, is_read], map: "idx_messages_unread", where: raw("((is_read = false) AND (deleted_at IS NULL))"))
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model notification_templates {
+  id            String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  event_key     String               @unique
+  channel       notification_channel
+  subject       String?
+  body_template String
+  is_active     Boolean              @default(true)
+  created_at    DateTime             @default(now()) @db.Timestamptz(6)
+  updated_at    DateTime             @default(now()) @db.Timestamptz(6)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model notifications {
+  id             String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id        String               @db.Uuid
+  apartment_id   String?              @db.Uuid
+  channel        notification_channel @default(in_app)
+  status         notification_status  @default(pending)
+  event_key      String
+  title          String?
+  body           String
+  reference_type String?
+  reference_id   String?              @db.Uuid
+  sent_at        DateTime?            @db.Timestamptz(6)
+  read_at        DateTime?            @db.Timestamptz(6)
+  failed_reason  String?
+  retry_count    Int                  @default(0) @db.SmallInt
+  created_at     DateTime             @default(now()) @db.Timestamptz(6)
+  updated_at     DateTime             @default(now()) @db.Timestamptz(6)
+  apartments     apartments?          @relation(fields: [apartment_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users          users                @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([reference_type, reference_id], map: "idx_notifications_reference")
+  @@index([status, retry_count], map: "idx_notifications_retry", where: raw("((status = 'failed'::notification_status) AND (retry_count < 3))"))
+  @@index([status], map: "idx_notifications_status")
+  @@index([user_id], map: "idx_notifications_user")
+  @@index([user_id, read_at], map: "idx_notifications_user_unread", where: raw("((read_at IS NULL) AND (status = 'sent'::notification_status))"))
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model payments {
+  id                             String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  booking_id                     String                 @unique @db.Uuid
+  payer_id                       String                 @db.Uuid
+  payee_id                       String                 @db.Uuid
+  amount                         Decimal                @db.Decimal(10, 2)
+  currency                       String                 @default("INR")
+  platform_fee                   Decimal                @default(0.00) @db.Decimal(10, 2)
+  provider_amount                Decimal                @db.Decimal(10, 2)
+  tax_amount                     Decimal                @default(0.00) @db.Decimal(10, 2)
+  payment_method                 payment_method
+  status                         payment_status         @default(initiated)
+  gateway_name                   String?
+  gateway_order_id               String?
+  gateway_payment_id             String?
+  gateway_signature              String?
+  gateway_raw_response           Json?
+  gateway_fee                    Decimal?               @db.Decimal(10, 2)
+  refunded_amount                Decimal?               @default(0.00) @db.Decimal(10, 2)
+  refund_reason                  String?
+  refunded_at                    DateTime?              @db.Timestamptz(6)
+  initiated_at                   DateTime               @default(now()) @db.Timestamptz(6)
+  succeeded_at                   DateTime?              @db.Timestamptz(6)
+  failed_at                      DateTime?              @db.Timestamptz(6)
+  created_at                     DateTime               @default(now()) @db.Timestamptz(6)
+  updated_at                     DateTime               @default(now()) @db.Timestamptz(6)
+  bookings                       bookings               @relation(fields: [booking_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users_payments_payee_idTousers users                  @relation("payments_payee_idTousers", fields: [payee_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users_payments_payer_idTousers users                  @relation("payments_payer_idTousers", fields: [payer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  payout_payment_items           payout_payment_items[]
+
+  @@index([booking_id], map: "idx_payments_booking")
+  @@index([created_at], map: "idx_payments_disputed", where: raw("(status = ANY (ARRAY['disputed'::payment_status, 'failed'::payment_status]))"))
+  @@index([gateway_order_id], map: "idx_payments_gateway_order")
+  @@index([gateway_payment_id], map: "idx_payments_gateway_pay")
+  @@index([payee_id], map: "idx_payments_payee")
+  @@index([payer_id], map: "idx_payments_payer")
+  @@index([status], map: "idx_payments_status")
+}
+
+model payout_payment_items {
+  id              String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  payout_id       String          @db.Uuid
+  payment_id      String          @db.Uuid
+  amount          Decimal         @db.Decimal(10, 2)
+  payments        payments        @relation(fields: [payment_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  payout_tracking payout_tracking @relation(fields: [payout_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([payout_id, payment_id], map: "uq_payout_payment")
+  @@index([payment_id], map: "idx_payout_items_payment")
+  @@index([payout_id], map: "idx_payout_items_payout")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model payout_tracking {
+  id                                        String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  provider_id                               String                 @db.Uuid
+  apartment_id                              String                 @db.Uuid
+  period_start                              DateTime               @db.Date
+  period_end                                DateTime               @db.Date
+  gross_amount                              Decimal                @db.Decimal(10, 2)
+  platform_fees_total                       Decimal                @default(0.00) @db.Decimal(10, 2)
+  net_amount                                Decimal                @db.Decimal(10, 2)
+  currency                                  String                 @default("INR")
+  status                                    payout_status          @default(pending)
+  bank_reference                            String?
+  payout_method                             String?
+  notes                                     String?
+  processed_by                              String?                @db.Uuid
+  processed_at                              DateTime?              @db.Timestamptz(6)
+  created_at                                DateTime               @default(now()) @db.Timestamptz(6)
+  updated_at                                DateTime               @default(now()) @db.Timestamptz(6)
+  payout_payment_items                      payout_payment_items[]
+  apartments                                apartments             @relation(fields: [apartment_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users_payout_tracking_processed_byTousers users?                 @relation("payout_tracking_processed_byTousers", fields: [processed_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users_payout_tracking_provider_idTousers  users                  @relation("payout_tracking_provider_idTousers", fields: [provider_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([apartment_id], map: "idx_payout_tracking_apartment")
+  @@index([provider_id], map: "idx_payout_tracking_provider")
+  @@index([status], map: "idx_payout_tracking_status")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model pricing_plans {
+  id                String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  listing_id        String        @db.Uuid
+  name              String
+  pricing_type      pricing_type
+  billing_cycle     billing_cycle @default(one_time)
+  price_amount      Decimal       @default(0.00) @db.Decimal(10, 2)
+  currency          String        @default("INR")
+  sessions_included Int?
+  validity_days     Int?
+  description       String?
+  is_active         Boolean       @default(true)
+  created_at        DateTime      @default(now()) @db.Timestamptz(6)
+  updated_at        DateTime      @default(now()) @db.Timestamptz(6)
+  bookings          bookings[]
+  listings          listings      @relation(fields: [listing_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([listing_id], map: "idx_pricing_plans_listing")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model reviews {
+  id                               String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  booking_id                       String        @db.Uuid
+  reviewer_id                      String        @db.Uuid
+  reviewee_id                      String        @db.Uuid
+  listing_id                       String        @db.Uuid
+  target                           review_target @default(listing)
+  rating                           Int           @db.SmallInt
+  title                            String?
+  body                             String?
+  is_anonymous                     Boolean       @default(false)
+  is_visible                       Boolean       @default(true)
+  hidden_reason                    String?
+  provider_reply                   String?
+  replied_at                       DateTime?     @db.Timestamptz(6)
+  deleted_at                       DateTime?     @db.Timestamptz(6)
+  created_at                       DateTime      @default(now()) @db.Timestamptz(6)
+  updated_at                       DateTime      @default(now()) @db.Timestamptz(6)
+  bookings                         bookings      @relation(fields: [booking_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  listings                         listings      @relation(fields: [listing_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users_reviews_reviewee_idTousers users         @relation("reviews_reviewee_idTousers", fields: [reviewee_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users_reviews_reviewer_idTousers users         @relation("reviews_reviewer_idTousers", fields: [reviewer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([booking_id, reviewer_id, target], map: "uq_review_booking_target")
+  @@index([booking_id], map: "idx_reviews_booking")
+  @@index([listing_id], map: "idx_reviews_listing")
+  @@index([listing_id, rating], map: "idx_reviews_rating", where: raw("(deleted_at IS NULL)"))
+  @@index([reviewee_id], map: "idx_reviews_reviewee")
+  @@index([reviewer_id], map: "idx_reviews_reviewer")
+  @@index([listing_id, is_visible], map: "idx_reviews_visible", where: raw("((deleted_at IS NULL) AND (is_visible = true))"))
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model user_profiles {
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id        String   @unique @db.Uuid
+  display_name   String
+  avatar_url     String?
+  bio            String?
+  languages      String[]
+  skills_offered String[]
+  interests      String[]
+  website_url    String?
+  linkedin_url   String?
+  is_public      Boolean  @default(true)
+  created_at     DateTime @default(now()) @db.Timestamptz(6)
+  updated_at     DateTime @default(now()) @db.Timestamptz(6)
+  users          users    @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([user_id], map: "idx_user_profiles_user")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model user_roles {
+  id                                 String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id                            String    @db.Uuid
+  role                               user_role
+  granted_by                         String?   @db.Uuid
+  granted_at                         DateTime  @default(now()) @db.Timestamptz(6)
+  revoked_at                         DateTime? @db.Timestamptz(6)
+  users_user_roles_granted_byTousers users?    @relation("user_roles_granted_byTousers", fields: [granted_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users_user_roles_user_idTousers    users     @relation("user_roles_user_idTousers", fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([user_id, role], map: "uq_user_role")
+  @@index([role], map: "idx_user_roles_role")
+  @@index([user_id], map: "idx_user_roles_user")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model users {
+  id                                                    String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  auth_uid                                              String?             @unique
+  email                                                 String              @unique
+  phone                                                 String?             @unique
+  apartment_id                                          String              @db.Uuid
+  unit_number                                           String?
+  invite_id                                             String?             @db.Uuid
+  status                                                user_status         @default(pending)
+  email_verified                                        Boolean             @default(false)
+  phone_verified                                        Boolean             @default(false)
+  last_login_at                                         DateTime?           @db.Timestamptz(6)
+  deleted_at                                            DateTime?           @db.Timestamptz(6)
+  created_at                                            DateTime            @default(now()) @db.Timestamptz(6)
+  updated_at                                            DateTime            @default(now()) @db.Timestamptz(6)
+  admin_actions                                         admin_actions[]
+  apartment_invites_apartment_invites_invited_byTousers apartment_invites[] @relation("apartment_invites_invited_byTousers")
+  apartment_invites_apartment_invites_used_byTousers    apartment_invites[] @relation("apartment_invites_used_byTousers")
+  bookings_bookings_learner_idTousers                   bookings[]          @relation("bookings_learner_idTousers")
+  bookings_bookings_provider_idTousers                  bookings[]          @relation("bookings_provider_idTousers")
+  dispute_messages                                      dispute_messages[]
+  disputes_disputes_against_user_idTousers              disputes[]          @relation("disputes_against_user_idTousers")
+  disputes_disputes_assigned_toTousers                  disputes[]          @relation("disputes_assigned_toTousers")
+  disputes_disputes_filed_byTousers                     disputes[]          @relation("disputes_filed_byTousers")
+  listings                                              listings[]
+  messages_messages_recipient_idTousers                 messages[]          @relation("messages_recipient_idTousers")
+  messages_messages_sender_idTousers                    messages[]          @relation("messages_sender_idTousers")
+  notifications                                         notifications[]
+  payments_payments_payee_idTousers                     payments[]          @relation("payments_payee_idTousers")
+  payments_payments_payer_idTousers                     payments[]          @relation("payments_payer_idTousers")
+  payout_tracking_payout_tracking_processed_byTousers   payout_tracking[]   @relation("payout_tracking_processed_byTousers")
+  payout_tracking_payout_tracking_provider_idTousers    payout_tracking[]   @relation("payout_tracking_provider_idTousers")
+  reviews_reviews_reviewee_idTousers                    reviews[]           @relation("reviews_reviewee_idTousers")
+  reviews_reviews_reviewer_idTousers                    reviews[]           @relation("reviews_reviewer_idTousers")
+  user_profiles                                         user_profiles?
+  user_roles_user_roles_granted_byTousers               user_roles[]        @relation("user_roles_granted_byTousers")
+  user_roles_user_roles_user_idTousers                  user_roles[]        @relation("user_roles_user_idTousers")
+  apartments                                            apartments          @relation(fields: [apartment_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  apartment_invites_users_invite_idToapartment_invites  apartment_invites?  @relation("users_invite_idToapartment_invites", fields: [invite_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([apartment_id], map: "idx_users_apartment")
+  @@index([auth_uid], map: "idx_users_auth_uid")
+  @@index([deleted_at], map: "idx_users_deleted_at", where: raw("(deleted_at IS NULL)"))
+  @@index([email], map: "idx_users_email")
+  @@index([status], map: "idx_users_status")
+}
+
+enum admin_action_type {
+  user_verified
+  user_rejected
+  user_suspended
+  user_reactivated
+  listing_approved
+  listing_rejected
+  listing_suspended
+  dispute_opened
+  dispute_resolved
+  dispute_dismissed
+  refund_issued
+  payout_released
+  invite_revoked
+  note_added
+}
+
+enum age_group {
+  children
+  teens
+  adults
+  seniors
+  all_ages
+}
+
+enum billing_cycle {
+  one_time
+  weekly
+  monthly
+  quarterly
+}
+
+enum booking_status {
+  pending
+  confirmed
+  completed
+  cancelled
+  no_show
+  refunded
+}
+
+enum cancellation_party {
+  learner
+  provider
+  admin
+}
+
+enum day_of_week {
+  monday
+  tuesday
+  wednesday
+  thursday
+  friday
+  saturday
+  sunday
+}
+
+enum dispute_resolution {
+  refunded
+  partial_refund
+  no_action
+  provider_penalised
+  learner_penalised
+}
+
+enum dispute_status {
+  open
+  under_review
+  resolved
+  dismissed
+}
+
+enum invite_status {
+  pending
+  accepted
+  expired
+  revoked
+}
+
+enum listing_mode {
+  offline
+  online
+  hybrid
+}
+
+enum listing_status {
+  draft
+  pending_review
+  approved
+  rejected
+  archived
+  suspended
+}
+
+enum notification_channel {
+  in_app
+  email
+  sms
+  push
+}
+
+enum notification_status {
+  pending
+  sent
+  failed
+  read
+}
+
+enum payment_method {
+  card
+  upi
+  net_banking
+  wallet
+  cash
+  skill_exchange
+}
+
+enum payment_status {
+  initiated
+  pending
+  succeeded
+  failed
+  refunded
+  partially_refunded
+  disputed
+}
+
+enum payout_status {
+  pending
+  processing
+  paid
+  on_hold
+  failed
+}
+
+enum pricing_type {
+  one_time
+  subscription
+  bundle
+  free
+  skill_exchange
+}
+
+enum review_target {
+  listing
+  learner
+}
+
+enum slot_type {
+  one_time
+  recurring
+}
+
+enum user_role {
+  learner
+  provider
+  admin
+}
+
+enum user_status {
+  pending
+  verified
+  suspended
+  rejected
+  deactivated
+}

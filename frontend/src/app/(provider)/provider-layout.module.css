@@ -1,0 +1,91 @@
+.layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--color-bg-base);
+}
+
+.sidebar {
+  width: 250px;
+  background-color: var(--color-bg-surface);
+  border-right: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebarHeader {
+  padding: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.logo {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  display: block;
+  margin-bottom: var(--space-1);
+}
+
+.badge {
+  font-size: 0.75rem;
+  background-color: var(--color-primary-light);
+  color: var(--color-primary-hover);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+}
+
+.nav {
+  padding: var(--space-4) 0;
+  flex-grow: 1;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  color: var(--color-text-base);
+  font-weight: 500;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.navItem:hover {
+  background-color: var(--color-bg-subtle);
+  color: var(--color-primary);
+}
+
+.sidebarFooter {
+  padding: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+.switchLink {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  transition: color 0.2s;
+}
+
+.switchLink:hover {
+  color: var(--color-primary);
+}
+
+.main {
+  flex-grow: 1;
+  padding: var(--space-6) var(--space-8);
+  max-width: 1200px;
+  overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+  .layout {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .main {
+    padding: var(--space-4);
+  }
+}

@@ -1,0 +1,234 @@
+import { PrismaService } from '../../infrastructure/database/prisma/prisma.service';
+import { CreateListingDto } from './dto/create-listing.dto';
+import { UpdateListingDto } from './dto/update-listing.dto';
+export declare class ListingsService {
+    private readonly prisma;
+    constructor(prisma: PrismaService);
+    create(providerId: string, apartmentId: string, createListingDto: CreateListingDto): Promise<{
+        id: string;
+        created_at: Date;
+        updated_at: Date;
+        mode: import("@prisma/client").$Enums.listing_mode;
+        apartment_id: string;
+        status: import("@prisma/client").$Enums.listing_status;
+        deleted_at: Date | null;
+        slug: string;
+        description: string;
+        title: string;
+        location_details: string | null;
+        age_group: import("@prisma/client").$Enums.age_group;
+        max_capacity: number;
+        prerequisites: string | null;
+        tags: string[];
+        is_featured: boolean;
+        rejection_reason: string | null;
+        provider_id: string;
+        category_id: string;
+    }>;
+    findAll(apartmentId?: string, categoryId?: string): Promise<({
+        users: {
+            id: string;
+            user_profiles: {
+                display_name: string;
+                avatar_url: string | null;
+            } | null;
+        };
+        categories: {
+            id: string;
+            name: string;
+            slug: string;
+        };
+        pricing_plans: {
+            id: string;
+            name: string;
+            is_active: boolean;
+            created_at: Date;
+            updated_at: Date;
+            description: string | null;
+            pricing_type: import("@prisma/client").$Enums.pricing_type;
+            billing_cycle: import("@prisma/client").$Enums.billing_cycle;
+            price_amount: import("@prisma/client-runtime-utils").Decimal;
+            currency: string;
+            sessions_included: number | null;
+            validity_days: number | null;
+            listing_id: string;
+        }[];
+    } & {
+        id: string;
+        created_at: Date;
+        updated_at: Date;
+        mode: import("@prisma/client").$Enums.listing_mode;
+        apartment_id: string;
+        status: import("@prisma/client").$Enums.listing_status;
+        deleted_at: Date | null;
+        slug: string;
+        description: string;
+        title: string;
+        location_details: string | null;
+        age_group: import("@prisma/client").$Enums.age_group;
+        max_capacity: number;
+        prerequisites: string | null;
+        tags: string[];
+        is_featured: boolean;
+        rejection_reason: string | null;
+        provider_id: string;
+        category_id: string;
+    })[]>;
+    findByProvider(providerId: string): Promise<({
+        categories: {
+            id: string;
+            name: string;
+            slug: string;
+        };
+        pricing_plans: {
+            id: string;
+            name: string;
+            is_active: boolean;
+            created_at: Date;
+            updated_at: Date;
+            description: string | null;
+            pricing_type: import("@prisma/client").$Enums.pricing_type;
+            billing_cycle: import("@prisma/client").$Enums.billing_cycle;
+            price_amount: import("@prisma/client-runtime-utils").Decimal;
+            currency: string;
+            sessions_included: number | null;
+            validity_days: number | null;
+            listing_id: string;
+        }[];
+    } & {
+        id: string;
+        created_at: Date;
+        updated_at: Date;
+        mode: import("@prisma/client").$Enums.listing_mode;
+        apartment_id: string;
+        status: import("@prisma/client").$Enums.listing_status;
+        deleted_at: Date | null;
+        slug: string;
+        description: string;
+        title: string;
+        location_details: string | null;
+        age_group: import("@prisma/client").$Enums.age_group;
+        max_capacity: number;
+        prerequisites: string | null;
+        tags: string[];
+        is_featured: boolean;
+        rejection_reason: string | null;
+        provider_id: string;
+        category_id: string;
+    })[]>;
+    findOne(id: string): Promise<{
+        users: {
+            id: string;
+            user_profiles: {
+                id: string;
+                created_at: Date;
+                updated_at: Date;
+                user_id: string;
+                display_name: string;
+                avatar_url: string | null;
+                bio: string | null;
+                languages: string[];
+                skills_offered: string[];
+                interests: string[];
+                website_url: string | null;
+                linkedin_url: string | null;
+                is_public: boolean;
+            } | null;
+        };
+        categories: {
+            id: string;
+            name: string;
+            is_active: boolean;
+            created_at: Date;
+            updated_at: Date;
+            parent_id: string | null;
+            slug: string;
+            description: string | null;
+            icon_url: string | null;
+            display_order: number;
+        };
+        availability_slots: {
+            id: string;
+            is_active: boolean;
+            created_at: Date;
+            updated_at: Date;
+            max_capacity: number;
+            slot_type: import("@prisma/client").$Enums.slot_type;
+            start_datetime: Date | null;
+            end_datetime: Date | null;
+            day_of_week: import("@prisma/client").$Enums.day_of_week | null;
+            start_time: Date | null;
+            end_time: Date | null;
+            recurrence_start: Date | null;
+            recurrence_end: Date | null;
+            timezone: string;
+            notes: string | null;
+            listing_id: string;
+        }[];
+        listing_media: {
+            id: string;
+            created_at: Date;
+            display_order: number;
+            listing_id: string;
+            media_url: string;
+            media_type: string;
+            alt_text: string | null;
+        }[];
+        pricing_plans: {
+            id: string;
+            name: string;
+            is_active: boolean;
+            created_at: Date;
+            updated_at: Date;
+            description: string | null;
+            pricing_type: import("@prisma/client").$Enums.pricing_type;
+            billing_cycle: import("@prisma/client").$Enums.billing_cycle;
+            price_amount: import("@prisma/client-runtime-utils").Decimal;
+            currency: string;
+            sessions_included: number | null;
+            validity_days: number | null;
+            listing_id: string;
+        }[];
+    } & {
+        id: string;
+        created_at: Date;
+        updated_at: Date;
+        mode: import("@prisma/client").$Enums.listing_mode;
+        apartment_id: string;
+        status: import("@prisma/client").$Enums.listing_status;
+        deleted_at: Date | null;
+        slug: string;
+        description: string;
+        title: string;
+        location_details: string | null;
+        age_group: import("@prisma/client").$Enums.age_group;
+        max_capacity: number;
+        prerequisites: string | null;
+        tags: string[];
+        is_featured: boolean;
+        rejection_reason: string | null;
+        provider_id: string;
+        category_id: string;
+    }>;
+    update(id: string, providerId: string, updateListingDto: UpdateListingDto): Promise<{
+        id: string;
+        created_at: Date;
+        updated_at: Date;
+        mode: import("@prisma/client").$Enums.listing_mode;
+        apartment_id: string;
+        status: import("@prisma/client").$Enums.listing_status;
+        deleted_at: Date | null;
+        slug: string;
+        description: string;
+        title: string;
+        location_details: string | null;
+        age_group: import("@prisma/client").$Enums.age_group;
+        max_capacity: number;
+        prerequisites: string | null;
+        tags: string[];
+        is_featured: boolean;
+        rejection_reason: string | null;
+        provider_id: string;
+        category_id: string;
+    }>;
+}
