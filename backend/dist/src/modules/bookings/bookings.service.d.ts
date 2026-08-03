@@ -12,9 +12,6 @@ export declare class BookingsService {
         deleted_at: Date | null;
         provider_id: string;
         listing_id: string;
-        learner_id: string;
-        slot_id: string;
-        pricing_plan_id: string;
         session_start: Date;
         session_end: Date;
         cancelled_at: Date | null;
@@ -22,6 +19,9 @@ export declare class BookingsService {
         cancellation_reason: string | null;
         learner_notes: string | null;
         provider_notes: string | null;
+        learner_id: string;
+        slot_id: string;
+        pricing_plan_id: string;
     }>;
     findByLearner(learnerId: string): Promise<({
         listings: {
@@ -41,9 +41,6 @@ export declare class BookingsService {
         deleted_at: Date | null;
         provider_id: string;
         listing_id: string;
-        learner_id: string;
-        slot_id: string;
-        pricing_plan_id: string;
         session_start: Date;
         session_end: Date;
         cancelled_at: Date | null;
@@ -51,6 +48,9 @@ export declare class BookingsService {
         cancellation_reason: string | null;
         learner_notes: string | null;
         provider_notes: string | null;
+        learner_id: string;
+        slot_id: string;
+        pricing_plan_id: string;
     })[]>;
     findByProvider(providerId: string): Promise<({
         listings: {
@@ -70,9 +70,6 @@ export declare class BookingsService {
         deleted_at: Date | null;
         provider_id: string;
         listing_id: string;
-        learner_id: string;
-        slot_id: string;
-        pricing_plan_id: string;
         session_start: Date;
         session_end: Date;
         cancelled_at: Date | null;
@@ -80,6 +77,9 @@ export declare class BookingsService {
         cancellation_reason: string | null;
         learner_notes: string | null;
         provider_notes: string | null;
+        learner_id: string;
+        slot_id: string;
+        pricing_plan_id: string;
     })[]>;
     updateStatus(bookingId: string, userId: string, updateDto: UpdateBookingStatusDto): Promise<{
         id: string;
@@ -89,9 +89,6 @@ export declare class BookingsService {
         deleted_at: Date | null;
         provider_id: string;
         listing_id: string;
-        learner_id: string;
-        slot_id: string;
-        pricing_plan_id: string;
         session_start: Date;
         session_end: Date;
         cancelled_at: Date | null;
@@ -99,5 +96,8 @@ export declare class BookingsService {
         cancellation_reason: string | null;
         learner_notes: string | null;
         provider_notes: string | null;
+        learner_id: string;
+        slot_id: string;
+        pricing_plan_id: string;
     }>;
 }
