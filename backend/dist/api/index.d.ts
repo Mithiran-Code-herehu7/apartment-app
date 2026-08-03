@@ -1,1 +1,8 @@
+import { HttpAdapterHost } from '@nestjs/core';
+import { ExceptionFilter, ArgumentsHost } from '@nestjs/common';
+export declare class AllExceptionsFilter implements ExceptionFilter {
+    private readonly httpAdapterHost;
+    constructor(httpAdapterHost: HttpAdapterHost);
+    catch(exception: unknown, host: ArgumentsHost): void;
+}
 export default function handler(req: any, res: any): Promise<void>;
