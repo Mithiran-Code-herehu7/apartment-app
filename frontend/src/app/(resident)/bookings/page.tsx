@@ -4,10 +4,29 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useResidentBookings } from '@/hooks/api/use-bookings';
+import { api } from '@/lib/api';
 
 export default function MyBookingsPage() {
-  const [activeTab, setActiveTab] = useState('upcoming');
-  const { data: bookings, isLoading, isError } = useResidentBookings();
+  const [activeTab, setActiveTab] = useState<'upcoming' | 'past'>('upcoming');
+  const { data: bookings, isLoading, isError, refetch } = useResidentBookings();
+  const [cancellingId, setCancellingId] = useState<string | null>(null);
+
+  const handleCancel = async (bookingId: string) => {
+    if (!confirm('Are you sure you want to cancel this booking?')) return;
+    setCancellingId(bookingId);
+    try {
+      await api.patch(`/bookings/${bookingId}/status`, { status: 'cancelled' });
+      refetch();
+    } catch (err: any) {
+      alert(err.response?.data?.message || 'Failed to cancel booking');
+    } finally {
+      setCancellingId(null);
+    }
+  };
+
+  const activeBookings = bookings?.filter(b => b.status === 'pending' || b.status === 'confirmed') || [];
+  const pastBookings = bookings?.filter(b => b.status === 'completed' || b.status === 'cancelled') || [];
+  const displayedBookings = activeTab === 'upcoming' ? activeBookings : pastBookings;
 
   return (
     <div style={{ padding: 'var(--space-4)', maxWidth: '800px', margin: '0 auto' }}>
@@ -26,7 +45,7 @@ export default function MyBookingsPage() {
             marginBottom: '-1px'
           }}
         >
-          Active
+          Active ({activeBookings.length})
         </button>
         <button 
           onClick={() => setActiveTab('past')}
@@ -38,7 +57,7 @@ export default function MyBookingsPage() {
             marginBottom: '-1px'
           }}
         >
-          Past
+          Past ({pastBookings.length})
         </button>
       </div>
 
@@ -47,8 +66,8 @@ export default function MyBookingsPage() {
           <p>Loading bookings...</p>
         ) : isError ? (
           <p>Error loading bookings.</p>
-        ) : bookings && bookings.length > 0 ? (
-          bookings.map((booking) => (
+        ) : displayedBookings.length > 0 ? (
+          displayedBookings.map((booking) => (
             <Card key={booking.id}>
               <CardHeader>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
@@ -57,29 +76,36 @@ export default function MyBookingsPage() {
                     <CardDescription>Created: {new Date(booking.created_at).toLocaleDateString()}</CardDescription>
                   </div>
                   <span style={{ 
-                    backgroundColor: booking.status === 'confirmed' ? 'var(--color-primary-light)' : 'var(--color-bg-subtle)', 
+                    backgroundColor: booking.status === 'confirmed' ? 'var(--color-primary-light)' : booking.status === 'cancelled' ? 'var(--color-bg-subtle)' : 'var(--color-warning)', 
                     color: booking.status === 'confirmed' ? 'var(--color-primary-hover)' : 'var(--color-text-muted)', 
                     padding: '2px 8px', 
                     borderRadius: 'var(--radius-full)', 
                     fontSize: '0.75rem', 
                     fontWeight: 600 
                   }}>
-                    {booking.status}
+                    {booking.status.toUpperCase()}
                   </span>
                 </div>
               </CardHeader>
               <CardContent>
                 <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
-                  <Button variant="secondary" size="sm">Message Provider</Button>
                   {booking.status !== 'completed' && booking.status !== 'cancelled' && (
-                    <Button variant="ghost" size="sm" style={{ color: 'var(--color-danger)' }}>Cancel</Button>
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      style={{ color: 'var(--color-danger)' }}
+                      onClick={() => handleCancel(booking.id)}
+                      disabled={cancellingId === booking.id}
+                    >
+                      {cancellingId === booking.id ? 'Cancelling...' : 'Cancel Booking'}
+                    </Button>
                   )}
                 </div>
               </CardContent>
             </Card>
           ))
         ) : (
-          <p>No bookings found.</p>
+          <p>No bookings found for this section.</p>
         )}
       </div>
     </div>

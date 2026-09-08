@@ -23,6 +23,13 @@ export interface Listing {
     start_time: string;
     end_time: string;
   }[];
+  users?: {
+    id?: string;
+    user_profiles?: {
+      display_name?: string;
+      avatar_url?: string;
+    };
+  };
 }
 
 export function useListings(params?: Record<string, any>) {

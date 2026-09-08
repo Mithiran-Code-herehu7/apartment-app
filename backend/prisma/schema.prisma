@@ -520,6 +520,7 @@ model users {
   id                                                    String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   auth_uid                                              String?             @unique
   email                                                 String              @unique
+  password_hash                                         String?
   phone                                                 String?             @unique
   apartment_id                                          String              @db.Uuid
   unit_number                                           String?

@@ -7,7 +7,16 @@ import { api } from '@/lib/api';
 export interface User {
   id: string;
   email: string;
+  phone?: string;
   roles: string[];
+  displayName?: string;
+}
+
+export interface SignupData {
+  email: string;
+  phone: string;
+  apartmentName: string;
+  password: string;
   displayName?: string;
 }
 
@@ -15,7 +24,8 @@ interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  login: (phone: string, otp: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<void>;
+  signup: (data: SignupData) => Promise<void>;
   logout: () => void;
   hasRole: (role: string) => boolean;
 }
@@ -31,11 +41,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const loadUser = async () => {
       try {
-        // Fetch current user details from backend using the cookie
         const res = await api.get('/users/me');
         setUser(res.data);
       } catch (error) {
-        // 401 means not logged in or cookie expired, which is normal
         setUser(null);
       } finally {
         setIsLoading(false);
@@ -45,8 +53,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     loadUser();
   }, []);
 
-  const login = async (phone: string, otp: string) => {
-    const res = await api.post('/auth/login', { phone, otp });
+  const login = async (email: string, password: string) => {
+    const res = await api.post('/auth/login', { email, password });
+    const { user: userData } = res.data;
+    setUser(userData);
+  };
+
+  const signup = async (data: SignupData) => {
+    const res = await api.post('/auth/signup', data);
     const { user: userData } = res.data;
     setUser(userData);
   };
@@ -62,11 +76,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const hasRole = (role: string) => {
-    return user?.roles.includes(role) ?? false;
+    return user?.roles?.includes(role) ?? false;
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated: !!user, isLoading, login, logout, hasRole }}>
+    <AuthContext.Provider value={{ user, isAuthenticated: !!user, isLoading, login, signup, logout, hasRole }}>
       {children}
     </AuthContext.Provider>
   );

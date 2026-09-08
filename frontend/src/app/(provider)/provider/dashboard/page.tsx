@@ -4,22 +4,32 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { api } from '@/lib/api';
+import { useAuth } from '@/contexts/auth-context';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 export default function ProviderDashboardPage() {
+  const { isAuthenticated, isLoading: isAuthLoading } = useAuth();
+  const router = useRouter();
   const [listings, setListings] = useState<any[]>([]);
   const [bookings, setBookings] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    if (isAuthLoading) return;
+    if (!isAuthenticated) {
+      router.push('/login');
+      return;
+    }
+
     const fetchDashboardData = async () => {
       try {
         const [listingsRes, bookingsRes] = await Promise.all([
           api.get('/listings/my-listings'),
           api.get('/bookings/my-teaching')
         ]);
-        setListings(listingsRes.data);
-        setBookings(bookingsRes.data);
+        setListings(listingsRes.data || []);
+        setBookings(bookingsRes.data || []);
       } catch (error) {
         console.error('Failed to load dashboard data', error);
       } finally {
@@ -27,20 +37,18 @@ export default function ProviderDashboardPage() {
       }
     };
     fetchDashboardData();
-  }, []);
+  }, [isAuthenticated, isAuthLoading, router]);
 
-  if (isLoading) {
-    return <div>Loading dashboard...</div>;
+  if (isAuthLoading || isLoading) {
+    return <div style={{ padding: 'var(--space-4)' }}>Loading dashboard...</div>;
   }
 
   const activeListingsCount = listings.filter(l => l.status === 'approved').length;
   const pendingBookingsCount = bookings.filter(b => b.status === 'pending').length;
-  // Calculate total earnings from completed/paid bookings (mock calculation based on pricing plans if any)
   const totalEarnings = bookings.reduce((acc, b) => {
     if (b.status === 'completed' || b.status === 'confirmed') {
-       // Just a dummy calc for demo based on associated listing price if available
-       const price = b.listings?.pricing_plans?.[0]?.price || 0;
-       return acc + price;
+       const price = b.listings?.pricing_plans?.[0]?.price_amount || 0;
+       return acc + Number(price);
     }
     return acc;
   }, 0);
@@ -50,7 +58,6 @@ export default function ProviderDashboardPage() {
   const handleApprove = async (id: string) => {
     try {
       await api.patch(`/bookings/${id}/status`, { status: 'confirmed' });
-      // Refresh logic would ideally go here, but for demo we can just reload
       window.location.reload();
     } catch (e) {
       alert('Failed to approve');

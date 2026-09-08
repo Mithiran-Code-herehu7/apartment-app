@@ -1,7 +1,6 @@
 import React from 'react';
-import Link from 'next/link';
-import { Settings, List, Calendar, Home } from 'lucide-react';
-import styles from './provider-layout.module.css';
+import { Navbar } from '@/components/layout/navbar';
+import { ProviderSubnav } from '@/components/layout/provider-subnav';
 
 export default function ProviderLayout({
   children,
@@ -9,38 +8,10 @@ export default function ProviderLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className={styles.layout}>
-      <aside className={styles.sidebar}>
-        <div className={styles.sidebarHeader}>
-          <Link href="/" className={styles.logo}>
-            ApartmentSkills
-          </Link>
-          <span className={styles.badge}>Provider</span>
-        </div>
-        
-        <nav className={styles.nav}>
-          <Link href="/provider/dashboard" className={styles.navItem}>
-            <Home size={20} /> Dashboard
-          </Link>
-          <Link href="/provider/listings" className={styles.navItem}>
-            <List size={20} /> My Listings
-          </Link>
-          <Link href="/provider/bookings" className={styles.navItem}>
-            <Calendar size={20} /> Bookings
-          </Link>
-          <Link href="/provider/settings" className={styles.navItem}>
-            <Settings size={20} /> Settings
-          </Link>
-        </nav>
-
-        <div className={styles.sidebarFooter}>
-          <Link href="/" className={styles.switchLink}>
-            &larr; Back to Resident View
-          </Link>
-        </div>
-      </aside>
-      
-      <main className={styles.main}>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <Navbar />
+      <ProviderSubnav />
+      <main style={{ flexGrow: 1, maxWidth: '1200px', width: '100%', margin: '0 auto', padding: '0 var(--space-4, 16px) var(--space-8, 32px)' }}>
         {children}
       </main>
     </div>

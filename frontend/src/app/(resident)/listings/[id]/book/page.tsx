@@ -28,13 +28,25 @@ export default function BookingPage() {
 
   const handleBooking = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!date || !time) {
+      alert('Please select both a date and time.');
+      return;
+    }
+    
     setIsSubmitting(true);
     
     try {
-      const sessionStart = new Date(`${date}T${time}:00`).toISOString();
+      const parsedDate = new Date(`${date}T${time}:00`);
+      if (isNaN(parsedDate.getTime())) {
+        alert('Please enter a valid date and time.');
+        setIsSubmitting(false);
+        return;
+      }
+
+      const sessionStart = parsedDate.toISOString();
       // Assume 1 hour duration if not specified
       const durationMinutes = pricingPlan?.duration_minutes || 60;
-      const sessionEnd = new Date(new Date(sessionStart).getTime() + durationMinutes * 60000).toISOString();
+      const sessionEnd = new Date(parsedDate.getTime() + durationMinutes * 60000).toISOString();
 
       await api.post('/bookings', {
         listingId: listing.id,

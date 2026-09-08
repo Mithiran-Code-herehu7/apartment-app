@@ -3,6 +3,8 @@ import type { Response } from 'express';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { Public } from '../../common/decorators/public.decorator';
+import { SignupDto } from './dto/signup.dto';
+import { LoginDto } from './dto/login.dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -10,28 +12,15 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Public()
-  @Post('send-otp')
-  @ApiOperation({ summary: 'Send OTP securely' })
-  @ApiResponse({ status: 200, description: 'OTP sent successfully' })
-  async sendOtp(@Body('phone') phone: string) {
-    if (!phone) {
-      throw new Error('Phone is required');
-    }
-    return this.authService.sendOtp(phone);
-  }
-
-  @Public()
-  @Post('login')
-  @ApiOperation({ summary: 'Demo OTP login (Phone + OTP)' })
-  @ApiResponse({ status: 200, description: 'Returns a JWT and user profile' })
-  @ApiResponse({ status: 401, description: 'Invalid phone or OTP' })
-  async login(
-    @Body('phone') phone: string, 
-    @Body('otp') otp: string,
-    @Res({ passthrough: true }) response: Response
+  @Post('signup')
+  @ApiOperation({ summary: 'Register a new user account' })
+  @ApiResponse({ status: 201, description: 'Returns a JWT cookie and user profile' })
+  async signup(
+    @Body() signupDto: SignupDto,
+    @Res({ passthrough: true }) response: Response,
   ) {
-    const result = await this.authService.login(phone, otp);
-    
+    const result = await this.authService.signup(signupDto);
+
     // Set HTTP-Only cookie
     response.cookie('token', result.access_token, {
       httpOnly: true,
@@ -43,6 +32,29 @@ export class AuthController {
     return { user: result.user };
   }
 
+  @Public()
+  @Post('login')
+  @ApiOperation({ summary: 'Log in with Email and Password' })
+  @ApiResponse({ status: 200, description: 'Returns a JWT cookie and user profile' })
+  @ApiResponse({ status: 401, description: 'Invalid email or password' })
+  async login(
+    @Body() loginDto: LoginDto,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    const result = await this.authService.login(loginDto);
+
+    // Set HTTP-Only cookie
+    response.cookie('token', result.access_token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
+
+    return { user: result.user };
+  }
+
+  @Public()
   @Post('logout')
   @ApiOperation({ summary: 'Logout user by clearing cookie' })
   @ApiResponse({ status: 200, description: 'Cookie cleared' })

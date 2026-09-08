@@ -1,21 +1,29 @@
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../../infrastructure/database/prisma/prisma.service';
+import { SignupDto } from './dto/signup.dto';
+import { LoginDto } from './dto/login.dto';
 export declare class AuthService {
     private readonly prisma;
     private readonly jwtService;
-    private otpStore;
-    private readonly DEMO_PHONES;
     constructor(prisma: PrismaService, jwtService: JwtService);
-    sendOtp(phone: string): Promise<{
-        message: string;
-    }>;
-    login(phone: string, otp: string): Promise<{
+    signup(signupDto: SignupDto): Promise<{
         access_token: string;
         user: {
             id: string;
             email: string;
             phone: string | null;
-            roles: ("learner" | "provider")[];
+            displayName: string;
+            roles: import("@prisma/client").$Enums.user_role[];
+        };
+    }>;
+    login(loginDto: LoginDto): Promise<{
+        access_token: string;
+        user: {
+            id: string;
+            email: string;
+            phone: string | null;
+            displayName: string;
+            roles: import("@prisma/client").$Enums.user_role[];
         };
     }>;
 }

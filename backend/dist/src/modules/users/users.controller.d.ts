@@ -10,6 +10,7 @@ export declare class UsersController {
         updated_at: Date;
         auth_uid: string | null;
         email: string;
+        password_hash: string | null;
         phone: string | null;
         apartment_id: string;
         unit_number: string | null;
@@ -25,7 +26,6 @@ export declare class UsersController {
             id: string;
             created_at: Date;
             updated_at: Date;
-            user_id: string;
             display_name: string;
             avatar_url: string | null;
             bio: string | null;
@@ -35,6 +35,7 @@ export declare class UsersController {
             website_url: string | null;
             linkedin_url: string | null;
             is_public: boolean;
+            user_id: string;
         } | null;
         user_roles_user_roles_user_idTousers: {
             role: import("@prisma/client").$Enums.user_role;
@@ -45,6 +46,7 @@ export declare class UsersController {
         updated_at: Date;
         auth_uid: string | null;
         email: string;
+        password_hash: string | null;
         phone: string | null;
         apartment_id: string;
         unit_number: string | null;
@@ -60,7 +62,6 @@ export declare class UsersController {
             id: string;
             created_at: Date;
             updated_at: Date;
-            user_id: string;
             display_name: string;
             avatar_url: string | null;
             bio: string | null;
@@ -70,6 +71,7 @@ export declare class UsersController {
             website_url: string | null;
             linkedin_url: string | null;
             is_public: boolean;
+            user_id: string;
         } | null;
         user_roles_user_roles_user_idTousers: {
             role: import("@prisma/client").$Enums.user_role;
@@ -80,6 +82,7 @@ export declare class UsersController {
         updated_at: Date;
         auth_uid: string | null;
         email: string;
+        password_hash: string | null;
         phone: string | null;
         apartment_id: string;
         unit_number: string | null;
@@ -90,11 +93,10 @@ export declare class UsersController {
         last_login_at: Date | null;
         deleted_at: Date | null;
     }>;
-    updateProfile(id: string, updateProfileDto: UpdateProfileDto): Promise<{
+    updateProfile(id: string, user: any, updateProfileDto: UpdateProfileDto): Promise<{
         id: string;
         created_at: Date;
         updated_at: Date;
-        user_id: string;
         display_name: string;
         avatar_url: string | null;
         bio: string | null;
@@ -104,5 +106,6 @@ export declare class UsersController {
         website_url: string | null;
         linkedin_url: string | null;
         is_public: boolean;
+        user_id: string;
     }>;
 }

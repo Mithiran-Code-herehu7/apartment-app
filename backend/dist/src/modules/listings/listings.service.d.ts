@@ -123,7 +123,6 @@ export declare class ListingsService {
                 id: string;
                 created_at: Date;
                 updated_at: Date;
-                user_id: string;
                 display_name: string;
                 avatar_url: string | null;
                 bio: string | null;
@@ -133,6 +132,7 @@ export declare class ListingsService {
                 website_url: string | null;
                 linkedin_url: string | null;
                 is_public: boolean;
+                user_id: string;
             } | null;
         };
         categories: {

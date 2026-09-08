@@ -4,6 +4,7 @@ import { ListingsService } from './listings.service';
 import { CreateListingDto } from './dto/create-listing.dto';
 import { UpdateListingDto } from './dto/update-listing.dto';
 import { Roles } from '../../common/decorators/roles.decorator';
+import { Public } from '../../common/decorators/public.decorator';
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
 
 @ApiTags('listings')
@@ -23,6 +24,7 @@ export class ListingsController {
     return this.listingsService.create(user.id, user.apartmentId, createListingDto);
   }
 
+  @Public()
   @Get()
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get all approved listings for the users apartment' })
@@ -32,8 +34,8 @@ export class ListingsController {
     @CurrentUser() user: any,
     @Query('categoryId') categoryId?: string,
   ) {
-    // Only fetch listings for the user's apartment
-    return this.listingsService.findAll(user.apartmentId, categoryId);
+    // Fetch listings for the user's apartment if authenticated, or all active listings
+    return this.listingsService.findAll(user?.apartmentId, categoryId);
   }
 
   @Roles('provider')
@@ -45,6 +47,7 @@ export class ListingsController {
     return this.listingsService.findByProvider(user.id);
   }
 
+  @Public()
   @Get(':id')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get specific listing details' })

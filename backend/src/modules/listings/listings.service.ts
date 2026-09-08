@@ -19,7 +19,7 @@ export class ListingsService {
         mode: createListingDto.mode,
         location_details: createListingDto.locationDetails,
         age_group: createListingDto.ageGroup,
-        max_capacity: createListingDto.maxCapacity ?? 1,
+        max_capacity: createListingDto.maxCapacity ?? 10,
         prerequisites: createListingDto.prerequisites,
         tags: createListingDto.tags || [],
         status: 'approved', // Auto-approved for demo
@@ -35,9 +35,9 @@ export class ListingsService {
         availability_slots: {
           create: [{
             day_of_week: 'monday',
-            start_time: new Date('1970-01-01T10:00:00Z'),
-            end_time: new Date('1970-01-01T11:00:00Z'),
-            max_capacity: createListingDto.maxCapacity ?? 1,
+            start_time: new Date('2026-01-01T10:00:00Z'),
+            end_time: new Date('2026-01-01T11:00:00Z'),
+            max_capacity: createListingDto.maxCapacity ?? 10,
             slot_type: 'recurring'
           }]
         }
@@ -77,7 +77,7 @@ export class ListingsService {
   }
 
   async findOne(id: string) {
-    const listing = await this.prisma.listings.findUnique({
+    const listing = await this.prisma.listings.findFirst({
       where: { id, deleted_at: null },
       include: {
         users: { select: { id: true, user_profiles: true } },

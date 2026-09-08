@@ -1,9 +1,10 @@
-import { Controller, Get, Post, Body, Param, Patch, Req } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
+import { Controller, Get, Post, Body, Param, Patch, Req, ForbiddenException } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBearerAuth } from '@nestjs/swagger';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { Public } from '../../common/decorators/public.decorator';
+import { CurrentUser } from '../../common/decorators/current-user.decorator';
 
 @ApiTags('users')
 @Controller('users')
@@ -20,6 +21,7 @@ export class UsersController {
   }
 
   @Get('me')
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Get current logged in user details' })
   @ApiResponse({ status: 200, description: 'Current user profile details' })
   getMe(@Req() req: any) {
@@ -28,6 +30,7 @@ export class UsersController {
   }
 
   @Get(':id')
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Get user details by ID' })
   @ApiParam({ name: 'id', description: 'User UUID' })
   @ApiResponse({ status: 200, description: 'User profile details' })
@@ -37,14 +40,19 @@ export class UsersController {
   }
 
   @Patch(':id/profile')
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Update user profile details' })
   @ApiParam({ name: 'id', description: 'User UUID' })
   @ApiResponse({ status: 200, description: 'Profile updated' })
   @ApiResponse({ status: 404, description: 'User/Profile not found' })
   updateProfile(
     @Param('id') id: string,
+    @CurrentUser() user: any,
     @Body() updateProfileDto: UpdateProfileDto,
   ) {
+    if (user.id !== id) {
+      throw new ForbiddenException('You can only update your own profile');
+    }
     return this.usersService.updateProfile(id, updateProfileDto);
   }
 }

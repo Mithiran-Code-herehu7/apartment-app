@@ -47,19 +47,26 @@ export class BookingsService {
       finalPricingPlanId = fallbackPlan.id;
     }
 
-    return this.prisma.bookings.create({
-      data: {
-        learner_id: learnerId,
-        provider_id: listing.provider_id,
-        listing_id: createBookingDto.listingId,
-        slot_id: finalSlotId,
-        pricing_plan_id: finalPricingPlanId,
-        session_start: new Date(createBookingDto.sessionStart),
-        session_end: new Date(createBookingDto.sessionEnd),
-        learner_notes: createBookingDto.learnerNotes,
-        status: 'pending',
-      },
-    });
+    try {
+      return await this.prisma.bookings.create({
+        data: {
+          learner_id: learnerId,
+          provider_id: listing.provider_id,
+          listing_id: createBookingDto.listingId,
+          slot_id: finalSlotId,
+          pricing_plan_id: finalPricingPlanId,
+          session_start: new Date(createBookingDto.sessionStart),
+          session_end: new Date(createBookingDto.sessionEnd),
+          learner_notes: createBookingDto.learnerNotes,
+          status: 'pending',
+        },
+      });
+    } catch (error: any) {
+      if (error?.message?.includes('fully booked') || error?.cause?.originalMessage?.includes('fully booked')) {
+        throw new BadRequestException('This session is fully booked. Please select another time slot or contact the provider.');
+      }
+      throw error;
+    }
   }
 
   async findByLearner(learnerId: string) {

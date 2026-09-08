@@ -17,19 +17,25 @@ const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
 const auth_service_1 = require("./auth.service");
 const public_decorator_1 = require("../../common/decorators/public.decorator");
+const signup_dto_1 = require("./dto/signup.dto");
+const login_dto_1 = require("./dto/login.dto");
 let AuthController = class AuthController {
     authService;
     constructor(authService) {
         this.authService = authService;
     }
-    async sendOtp(phone) {
-        if (!phone) {
-            throw new Error('Phone is required');
-        }
-        return this.authService.sendOtp(phone);
+    async signup(signupDto, response) {
+        const result = await this.authService.signup(signupDto);
+        response.cookie('token', result.access_token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+        });
+        return { user: result.user };
     }
-    async login(phone, otp, response) {
-        const result = await this.authService.login(phone, otp);
+    async login(loginDto, response) {
+        const result = await this.authService.login(loginDto);
         response.cookie('token', result.access_token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
@@ -51,28 +57,29 @@ let AuthController = class AuthController {
 exports.AuthController = AuthController;
 __decorate([
     (0, public_decorator_1.Public)(),
-    (0, common_1.Post)('send-otp'),
-    (0, swagger_1.ApiOperation)({ summary: 'Send OTP securely' }),
-    (0, swagger_1.ApiResponse)({ status: 200, description: 'OTP sent successfully' }),
-    __param(0, (0, common_1.Body)('phone')),
+    (0, common_1.Post)('signup'),
+    (0, swagger_1.ApiOperation)({ summary: 'Register a new user account' }),
+    (0, swagger_1.ApiResponse)({ status: 201, description: 'Returns a JWT cookie and user profile' }),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Res)({ passthrough: true })),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [signup_dto_1.SignupDto, Object]),
     __metadata("design:returntype", Promise)
-], AuthController.prototype, "sendOtp", null);
+], AuthController.prototype, "signup", null);
 __decorate([
     (0, public_decorator_1.Public)(),
     (0, common_1.Post)('login'),
-    (0, swagger_1.ApiOperation)({ summary: 'Demo OTP login (Phone + OTP)' }),
-    (0, swagger_1.ApiResponse)({ status: 200, description: 'Returns a JWT and user profile' }),
-    (0, swagger_1.ApiResponse)({ status: 401, description: 'Invalid phone or OTP' }),
-    __param(0, (0, common_1.Body)('phone')),
-    __param(1, (0, common_1.Body)('otp')),
-    __param(2, (0, common_1.Res)({ passthrough: true })),
+    (0, swagger_1.ApiOperation)({ summary: 'Log in with Email and Password' }),
+    (0, swagger_1.ApiResponse)({ status: 200, description: 'Returns a JWT cookie and user profile' }),
+    (0, swagger_1.ApiResponse)({ status: 401, description: 'Invalid email or password' }),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Res)({ passthrough: true })),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String, Object]),
+    __metadata("design:paramtypes", [login_dto_1.LoginDto, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "login", null);
 __decorate([
+    (0, public_decorator_1.Public)(),
     (0, common_1.Post)('logout'),
     (0, swagger_1.ApiOperation)({ summary: 'Logout user by clearing cookie' }),
     (0, swagger_1.ApiResponse)({ status: 200, description: 'Cookie cleared' }),

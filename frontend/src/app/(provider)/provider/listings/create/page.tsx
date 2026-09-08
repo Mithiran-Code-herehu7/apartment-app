@@ -14,7 +14,8 @@ export default function CreateListingPage() {
     title: '',
     description: '',
     categoryId: '',
-    price: ''
+    price: '',
+    maxCapacity: '10'
   });
   const [isLoading, setIsLoading] = useState(false);
 
@@ -42,16 +43,15 @@ export default function CreateListingPage() {
     setIsLoading(true);
 
     try {
-      // Create listing
       const slug = formData.title.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-' + Date.now();
       await api.post('/listings', {
         title: formData.title,
         description: formData.description,
         categoryId: formData.categoryId,
         price: Number(formData.price || 500),
+        maxCapacity: Number(formData.maxCapacity || 10),
         slug,
       });
-      // Optionally we should create a pricing plan here, but for demo just creating listing is fine
       router.push('/provider/listings');
     } catch (error: any) {
       console.error('Failed to create listing', error);
@@ -120,15 +120,26 @@ export default function CreateListingPage() {
               />
             </div>
 
-            <Input
-              label="Price per session (₹)"
-              name="price"
-              type="number"
-              value={formData.price}
-              onChange={handleChange}
-              placeholder="e.g. 500"
-              required
-            />
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-4)' }}>
+              <Input
+                label="Price per session (₹)"
+                name="price"
+                type="number"
+                value={formData.price}
+                onChange={handleChange}
+                placeholder="e.g. 500"
+                required
+              />
+              <Input
+                label="Max Participants / Capacity"
+                name="maxCapacity"
+                type="number"
+                value={formData.maxCapacity}
+                onChange={handleChange}
+                placeholder="e.g. 10"
+                required
+              />
+            </div>
 
             <div style={{ display: 'flex', gap: 'var(--space-4)', marginTop: 'var(--space-4)' }}>
               <Button type="submit" disabled={isLoading}>

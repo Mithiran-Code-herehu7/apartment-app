@@ -19,6 +19,7 @@ const users_service_1 = require("./users.service");
 const create_user_dto_1 = require("./dto/create-user.dto");
 const update_profile_dto_1 = require("./dto/update-profile.dto");
 const public_decorator_1 = require("../../common/decorators/public.decorator");
+const current_user_decorator_1 = require("../../common/decorators/current-user.decorator");
 let UsersController = class UsersController {
     usersService;
     constructor(usersService) {
@@ -33,7 +34,10 @@ let UsersController = class UsersController {
     findOne(id) {
         return this.usersService.findOne(id);
     }
-    updateProfile(id, updateProfileDto) {
+    updateProfile(id, user, updateProfileDto) {
+        if (user.id !== id) {
+            throw new common_1.ForbiddenException('You can only update your own profile');
+        }
         return this.usersService.updateProfile(id, updateProfileDto);
     }
 };
@@ -51,6 +55,7 @@ __decorate([
 ], UsersController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)('me'),
+    (0, swagger_1.ApiBearerAuth)(),
     (0, swagger_1.ApiOperation)({ summary: 'Get current logged in user details' }),
     (0, swagger_1.ApiResponse)({ status: 200, description: 'Current user profile details' }),
     __param(0, (0, common_1.Req)()),
@@ -60,6 +65,7 @@ __decorate([
 ], UsersController.prototype, "getMe", null);
 __decorate([
     (0, common_1.Get)(':id'),
+    (0, swagger_1.ApiBearerAuth)(),
     (0, swagger_1.ApiOperation)({ summary: 'Get user details by ID' }),
     (0, swagger_1.ApiParam)({ name: 'id', description: 'User UUID' }),
     (0, swagger_1.ApiResponse)({ status: 200, description: 'User profile details' }),
@@ -71,14 +77,16 @@ __decorate([
 ], UsersController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Patch)(':id/profile'),
+    (0, swagger_1.ApiBearerAuth)(),
     (0, swagger_1.ApiOperation)({ summary: 'Update user profile details' }),
     (0, swagger_1.ApiParam)({ name: 'id', description: 'User UUID' }),
     (0, swagger_1.ApiResponse)({ status: 200, description: 'Profile updated' }),
     (0, swagger_1.ApiResponse)({ status: 404, description: 'User/Profile not found' }),
     __param(0, (0, common_1.Param)('id')),
-    __param(1, (0, common_1.Body)()),
+    __param(1, (0, current_user_decorator_1.CurrentUser)()),
+    __param(2, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, update_profile_dto_1.UpdateProfileDto]),
+    __metadata("design:paramtypes", [String, Object, update_profile_dto_1.UpdateProfileDto]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "updateProfile", null);
 exports.UsersController = UsersController = __decorate([

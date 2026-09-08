@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useListing } from '@/hooks/api/use-listings';
+import { getListingImage } from '@/lib/get-listing-image';
 
 export default function ListingDetailsPage() {
   const params = useParams();
@@ -22,7 +23,13 @@ export default function ListingDetailsPage() {
         <Button variant="ghost" onClick={() => router.back()}>&larr; Back</Button>
       </div>
 
-      <div style={{ height: '300px', backgroundColor: 'var(--color-bg-subtle)', borderRadius: 'var(--radius-lg)', marginBottom: 'var(--space-6)' }} />
+      <div style={{ height: '320px', width: '100%', borderRadius: 'var(--radius-lg, 12px)', overflow: 'hidden', marginBottom: 'var(--space-6)', backgroundColor: '#f1f5f9' }}>
+        <img 
+          src={getListingImage(listing)} 
+          alt={listing.title} 
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+        />
+      </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
         <div>
@@ -30,15 +37,17 @@ export default function ListingDetailsPage() {
             {listing.title}
           </h1>
           <p style={{ color: 'var(--color-primary)', fontWeight: 600, fontSize: '1.25rem' }}>
-            ₹{listing.pricing_plans?.[0]?.price_amount || listing.price} / session
+            ₹{listing.pricing_plans?.[0]?.price_amount || listing.price || 500} / session
           </p>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-4)' }}>
-          <div style={{ width: '48px', height: '48px', borderRadius: '50%', backgroundColor: 'var(--color-bg-subtle)' }} />
+          <div style={{ width: '48px', height: '48px', borderRadius: '50%', backgroundColor: 'var(--color-primary-light, #e0f2fe)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, color: 'var(--color-primary)' }}>
+            {(listing.users?.user_profiles?.display_name || 'C')[0].toUpperCase()}
+          </div>
           <div>
-            <h3 style={{ fontWeight: 600 }}>Provider</h3>
-            <p style={{ fontSize: '0.875rem', color: 'var(--color-text-muted)' }}>ID: {listing.provider_id}</p>
+            <h3 style={{ fontWeight: 600 }}>{listing.users?.user_profiles?.display_name || 'Community Member'}</h3>
+            <p style={{ fontSize: '0.875rem', color: 'var(--color-text-muted)' }}>Verified Resident Provider</p>
           </div>
         </div>
 

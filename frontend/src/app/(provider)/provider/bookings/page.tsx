@@ -4,20 +4,30 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { api } from '@/lib/api';
+import { useAuth } from '@/contexts/auth-context';
+import { useRouter } from 'next/navigation';
 
 export default function ManageBookingsPage() {
+  const { isAuthenticated, isLoading: isAuthLoading } = useAuth();
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState('requests');
   const [bookings, setBookings] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    if (isAuthLoading) return;
+    if (!isAuthenticated) {
+      router.push('/login');
+      return;
+    }
+
     fetchBookings();
-  }, []);
+  }, [isAuthenticated, isAuthLoading, router]);
 
   const fetchBookings = async () => {
     try {
       const res = await api.get('/bookings/my-teaching');
-      setBookings(res.data);
+      setBookings(res.data || []);
     } catch (error) {
       console.error('Failed to fetch bookings', error);
     } finally {
@@ -28,7 +38,6 @@ export default function ManageBookingsPage() {
   const handleUpdateStatus = async (bookingId: string, status: string) => {
     try {
       await api.patch(`/bookings/${bookingId}/status`, { status });
-      // Refresh
       fetchBookings();
     } catch (error) {
       console.error('Failed to update booking status', error);
@@ -36,13 +45,12 @@ export default function ManageBookingsPage() {
     }
   };
 
-  if (isLoading) {
-    return <div>Loading bookings...</div>;
+  if (isAuthLoading || isLoading) {
+    return <div style={{ padding: 'var(--space-4)' }}>Loading bookings...</div>;
   }
 
   const pendingBookings = bookings.filter(b => b.status === 'pending');
   const upcomingBookings = bookings.filter(b => b.status === 'confirmed');
-
   const displayedBookings = activeTab === 'requests' ? pendingBookings : upcomingBookings;
 
   return (
@@ -109,9 +117,9 @@ export default function ManageBookingsPage() {
                 </div>
               </CardHeader>
               <CardContent>
-                {booking.notes && (
+                {booking.learner_notes && (
                   <p style={{ fontSize: '0.875rem', color: 'var(--color-text-muted)', marginBottom: 'var(--space-4)', fontStyle: 'italic' }}>
-                    "{booking.notes}"
+                    "{booking.learner_notes}"
                   </p>
                 )}
                 {booking.status === 'pending' && (

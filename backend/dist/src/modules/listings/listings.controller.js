@@ -19,6 +19,7 @@ const listings_service_1 = require("./listings.service");
 const create_listing_dto_1 = require("./dto/create-listing.dto");
 const update_listing_dto_1 = require("./dto/update-listing.dto");
 const roles_decorator_1 = require("../../common/decorators/roles.decorator");
+const public_decorator_1 = require("../../common/decorators/public.decorator");
 const current_user_decorator_1 = require("../../common/decorators/current-user.decorator");
 let ListingsController = class ListingsController {
     listingsService;
@@ -29,7 +30,7 @@ let ListingsController = class ListingsController {
         return this.listingsService.create(user.id, user.apartmentId, createListingDto);
     }
     findAll(user, categoryId) {
-        return this.listingsService.findAll(user.apartmentId, categoryId);
+        return this.listingsService.findAll(user?.apartmentId, categoryId);
     }
     findMyListings(user) {
         return this.listingsService.findByProvider(user.id);
@@ -55,6 +56,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ListingsController.prototype, "create", null);
 __decorate([
+    (0, public_decorator_1.Public)(),
     (0, common_1.Get)(),
     (0, swagger_1.ApiBearerAuth)(),
     (0, swagger_1.ApiOperation)({ summary: 'Get all approved listings for the users apartment' }),
@@ -78,6 +80,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ListingsController.prototype, "findMyListings", null);
 __decorate([
+    (0, public_decorator_1.Public)(),
     (0, common_1.Get)(':id'),
     (0, swagger_1.ApiBearerAuth)(),
     (0, swagger_1.ApiOperation)({ summary: 'Get specific listing details' }),

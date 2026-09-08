@@ -147,6 +147,16 @@ export default function EditListingPage() {
               />
             </div>
 
+            <Input
+              label="Price per session (₹)"
+              name="price"
+              type="number"
+              value={formData.price}
+              onChange={handleChange}
+              placeholder="e.g. 500"
+              required
+            />
+
             <div style={{ display: 'flex', gap: 'var(--space-4)', marginTop: 'var(--space-4)' }}>
               <Button type="submit" disabled={isSaving}>
                 {isSaving ? 'Saving...' : 'Save Changes'}
